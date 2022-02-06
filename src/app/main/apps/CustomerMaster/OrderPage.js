@@ -26,11 +26,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 
 import GooglePayButton from "@google-pay/button-react"
+// import StripeCheckout from 'react-stripe-checkout';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import HomePage from "./HomePage";
 
 import history from "@history";
 import FooterLayout1 from '../../../fuse-layouts/layout1/components/FooterLayout1';
-
-
 
 const useStyles = makeStyles({
     root: {
@@ -41,7 +43,8 @@ const useStyles = makeStyles({
     },
 });
 
-
+// the key is located in the .env file
+const stripePromise = loadStripe("pk_test_51KNpBmDiddQAhMW0Lzmb8Gbd8oIVJtbBQxqf73mYItt5rSbxhMeZ3X36qXQAZGxPlfX9QvnO9OJASoJyXy4tCHxq00dNLc3nH0");
 
 let shouldSucceed = false;
 
@@ -53,6 +56,7 @@ function hasSufficientFunds() {
 }
 
 function CustomerPayment(props) {
+
     const theme = useTheme();
 
     const classes = useStyles(props);
@@ -66,6 +70,8 @@ function CustomerPayment(props) {
 
     console.log("data", data)
 
+
+
     function handleSuccess() {
         // event.preventDefault();
         console.log("mydataaa:", data)
@@ -75,6 +81,7 @@ function CustomerPayment(props) {
         const tempData = {
             user_id: userData.user.uuid,
             docFormat: data.docFormat,
+            pageFormat:data.pageFormat,
             fileNames: data.fileNames,
             Total_Cost: data.Total_Cost,
             email: userData.user.data.email,
@@ -93,7 +100,7 @@ function CustomerPayment(props) {
                     // localStorage.setItem("order_id", res.data.order_id)
                     localStorage.removeItem("order_id");
                     localStorage.removeItem("myData");
-                    
+
 
                     history.push("/apps/dropAndUpload");
                 }
@@ -108,7 +115,7 @@ function CustomerPayment(props) {
 
     return (
         <div>
-            <form encType="multipart/form-data" method="post" className="flex flex-1 w-full items-center justify-between">
+            <form className="flex flex-1 w-full items-center justify-between">
                 <FusePageCarded
                     classes={{
                         toolbar: "p-0",
@@ -192,7 +199,7 @@ function CustomerPayment(props) {
                                     </TableBody>
                                     <TableBody>
                                         <TableRow>
-                                            <TableCell component="th"className="whitespace-nowrap" scope="row">
+                                            <TableCell component="th" className="whitespace-nowrap" scope="row">
                                                 {"Total Cost"}
                                             </TableCell>
                                             <TableCell style={{ width: 160 }} align="left">
@@ -212,7 +219,7 @@ function CustomerPayment(props) {
                                     </TableBody>
                                     <TableBody>
                                         <TableRow>
-                                            <TableCell component="th"  className="whitespace-nowrap" scope="row">
+                                            <TableCell component="th" className="whitespace-nowrap" scope="row">
                                                 {"Total Pages"}
                                             </TableCell>
                                             <TableCell style={{ width: 160 }} align="left">
@@ -238,7 +245,8 @@ function CustomerPayment(props) {
                                 </Table>
                             </TableContainer>
 
-                            <div className="pt-32 mb-60">
+                            <div className="pt-32 mb-3">
+
                                 <GooglePayButton
                                     environment="TEST"
                                     paymentRequest={{
@@ -301,13 +309,18 @@ function CustomerPayment(props) {
                                     buttonType='pay'
                                 />
                             </div>
+                            <div className="mb-60">
+                                <Elements stripe={stripePromise}>
+                                    <HomePage />
+                                </Elements>
+                            </div>
                         </div>
 
                     }
                     innerScroll
                 />
             </form>
-            <FooterLayout1  />
+            <FooterLayout1 />
         </div>
     );
 }

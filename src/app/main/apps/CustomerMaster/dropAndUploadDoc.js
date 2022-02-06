@@ -16,6 +16,11 @@ const document_formate = [
     { id: "A4_Color", text: "A4(Color)" },
     { id: "A3_Color", text: "A3(Color)" }
 ]
+
+const page_formate = [
+    { id: "single", text: "Single Side " },
+    { id: "front_back", text: "Front and Back " }
+]
 import "./style.css"
 import history from "@history";
 import FuseLoading from "@fuse/core/FuseLoading";
@@ -26,6 +31,7 @@ export default class dropAndUploadDoc extends Component {
         this.state = {
             files: [],
             docFormat: "",
+            pageFormat: "",
             total_price: "",
             loading: false
         }
@@ -47,12 +53,18 @@ export default class dropAndUploadDoc extends Component {
         e.preventDefault();
         console.log(e);
         console.log(" e.target.value", e.target.value)
-        // fData.append("docFormat",e.target.value);
-        // setDocFormat(
-        //     e.target.value
-        // )
         this.setState({
             docFormat: e.target.value
+        }, () => {
+            console.log(this.state)
+        })
+    }
+    handlePageFormate = (e) => {
+        e.preventDefault();
+        console.log(e);
+        console.log(" e.target.value", e.target.value)
+        this.setState({
+            pageFormat: e.target.value
         }, () => {
             console.log(this.state)
         })
@@ -60,7 +72,7 @@ export default class dropAndUploadDoc extends Component {
 
     onFilesError = (error, file) => {
         console.log('error code ' + error.code + ': ' + error.message)
-        alert('error code ' + error.code + ': ' + error.message)
+        alert('Error : ' + error.message)
     }
 
     filesRemoveOne = (file) => {
@@ -81,7 +93,7 @@ export default class dropAndUploadDoc extends Component {
         // const fileData=null;
 
 
-        if (this.state.files.length && this.state.docFormat.length !== 0) {
+        if (this.state.files.length && this.state.docFormat.length !== 0 && this.state.pageFormat.length !== 0) {
             console.log("document :", this.state.docFormat)
             console.log("files :", this.state.files)
             let fileData = null;
@@ -90,6 +102,7 @@ export default class dropAndUploadDoc extends Component {
                 fileNames[i] = this.state.files[i].name
             }
             fData.append("docFormat", this.state.docFormat)
+            fData.append("pageFormat", this.state.pageFormat)
             fileData = fData;
             console.log("fileNames", fileNames)
 
@@ -106,6 +119,7 @@ export default class dropAndUploadDoc extends Component {
                     myData["Total_Cost"] = res.data.numbers.Total_cost
                     myData["fileNames"] = fileNames
                     myData["docFormat"] = this.state.docFormat
+                    myData["pageFormat"] = this.state.pageFormat
 
                     console.log("mydataaaa", myData)
                     // this.state.total_price=res.data.numbers.Total_Cost
@@ -186,7 +200,7 @@ export default class dropAndUploadDoc extends Component {
                                 </div>
                                 <div className="flex justify-center sm:justify-start p-16">
                                     <TextField
-                                        // className="mt-8 mb-16 mx-4"
+                                        className="mt-8 mb-16 mx-4"
                                         id="docFormate"
                                         name="docFormate"
                                         select
@@ -204,11 +218,45 @@ export default class dropAndUploadDoc extends Component {
                                         variant="outlined"
                                         // fullWidth
                                         // size="medium"
-                                        style={{ width: "70%" }}
+                                        style={{ width: "40%" }}
                                     >
                                         <option disabled value="">{""}</option>
                                         {
                                             document_formate.map((option) => (
+
+                                                <option key={option.id}
+                                                    // onClick={(event) => this.handleChangeDocFormate(event)}
+                                                    value={option.id} >
+                                                    {option.text}
+                                                </option>
+
+                                            ))
+                                        }
+                                    </TextField>
+                                    <TextField
+                                        className="mt-8 mb-16 mx-4"
+                                        id="pageFormate"
+                                        name="pageFormate"
+                                        select
+                                        label="Page Type"
+                                        // value={form.Designation}
+                                        //value={handleSupplierType()}
+                                        // disabled={form.itemCategoryId === ""}
+                                        // onChange={handleChangeDocFormate}
+                                        value={this.state.pageFormat}
+                                        // onClick={(e) => this.setState({ docFormat: e.target.value })}
+                                        onChange={(event) => this.handlePageFormate(event)}
+                                        SelectProps={{
+                                            native: true,
+                                        }}
+                                        variant="outlined"
+                                        // fullWidth
+                                        // size="medium"
+                                        style={{ width: "40%" }}
+                                    >
+                                        <option disabled value="">{""}</option>
+                                        {
+                                            page_formate.map((option) => (
 
                                                 <option key={option.id}
                                                     // onClick={(event) => this.handleChangeDocFormate(event)}

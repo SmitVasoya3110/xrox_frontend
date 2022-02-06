@@ -101,7 +101,8 @@ function CustomerPayment(props) {
             user_id: userData.user.uuid,
             type: data.docFormat,
             files: data.fileNames,
-            amount: data.Total_Cost
+            amount: data.Total_Cost,
+            pageFormat:data.pageFormat
         }
         console.log("tempData", tempData);
         await axios
