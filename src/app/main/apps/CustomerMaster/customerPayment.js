@@ -58,6 +58,12 @@ function CustomerPayment(props) {
     const theme = useTheme();
 
     const classes = useStyles(props);
+    const temp_myData=localStorage.getItem("myData");
+    console.log("temp_myData",temp_myData);
+    if(!temp_myData){
+        history.push("/apps/dropAndUpload")
+        window.location.reload();
+    }
     const data = JSON.parse(localStorage.getItem('myData'))
     const tp = data.Total_Pages.toString()
     const tc = data.Total_Cost.toString()

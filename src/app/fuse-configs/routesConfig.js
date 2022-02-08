@@ -21,11 +21,11 @@ const routes = [
 	// 	exact: true,
 	// 	component: () => <Redirect to="/register1" />
 	// },
-	...FuseUtils.generateRoutesFromConfigs(routeConfigs, null),
+	...FuseUtils.generateRoutesFromConfigs(routeConfigs, ["Customer"]),
 	{
 		path: '/',
 		exact: true,
-		component: () => <Redirect to="/login" />
+		component: () => <Redirect to="/apps/dropAndUpload" />
 	},
 	{
 		component: () => <Redirect to="/errors/error-404" />,

@@ -18,8 +18,8 @@ const document_formate = [
 ]
 
 const page_formate = [
-    { id: "single", text: "Single Side " },
-    { id: "front_back", text: "Front and Back " }
+    { id: "Single Side", text: "Single Side" },
+    { id: "Double Side", text: "Double Side" }
 ]
 import "./style.css"
 import history from "@history";

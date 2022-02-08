@@ -60,11 +60,19 @@ function CustomerPayment(props) {
     const theme = useTheme();
 
     const classes = useStyles(props);
-    const data = JSON.parse(localStorage.getItem('myData'))
+    const temp_myData=localStorage.getItem("myData");
+    console.log("temp_myData",temp_myData);
+    const temp_order_id=localStorage.getItem("order_id");
+    if(!temp_myData || !temp_order_id ){
+        history.push("/apps/dropAndUpload")
+        window.location.reload();
+    }
+    const data = JSON.parse(localStorage.getItem('myData')) 
+    const order_id = parseInt(localStorage.getItem("order_id"))
+
     const tp = data.Total_Pages.toString()
     const tc = data.Total_Cost.toString()
     const userData = JSON.parse(localStorage.getItem('current_user'))
-    const order_id = parseInt(localStorage.getItem("order_id"))
     console.log("userData", userData)
     // console.log("data", userData.user.data.displayName)
 
@@ -245,7 +253,7 @@ function CustomerPayment(props) {
                                 </Table>
                             </TableContainer>
 
-                            <div className="pt-32 mb-3">
+                            <div className="pt-16 mb-3">
 
                                 <GooglePayButton
                                     environment="TEST"
@@ -309,6 +317,7 @@ function CustomerPayment(props) {
                                     buttonType='pay'
                                 />
                             </div>
+                            <h3 className="pt-16 mb-3 ml-3"><b>PAY WITH CARD</b></h3>
                             <div className="mb-60">
                                 <Elements stripe={stripePromise}>
                                     <HomePage />
