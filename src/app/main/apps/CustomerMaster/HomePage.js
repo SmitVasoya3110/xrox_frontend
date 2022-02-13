@@ -11,9 +11,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import CardInput from './CardInput';
 // Stripe
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
+import FuseLoading from "@fuse/core/FuseLoading";
 
 import "./style1.css"
 import history from "@history";
+import { Box, CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {
@@ -27,12 +29,12 @@ const useStyles = makeStyles({
     },
     div: {
         display: 'flex',
-        flexDirection: 'row',
-        alignContent: 'flex-start',
-        justifyContent: 'space-between',
+        // flexDirection: 'row',
+        // alignContent: 'flex-start',
+        // justifyContent: 'space-b',
     },
     button: {
-        margin: '2em auto 1em',
+        margin: '2em',
     },
 });
 
@@ -42,14 +44,13 @@ function HomePage() {
     const data = JSON.parse(localStorage.getItem('myData'))
     const userData = JSON.parse(localStorage.getItem('current_user'))
     const order_id = parseInt(localStorage.getItem("order_id"))
+    const [loading, setLoading] = useState(false)
     const tempData = {
         user_id: userData.user.uuid,
         files: data.fileNames,
         amount: data.Total_Cost,
         email: userData.user.data.email,
         order_id: order_id
-
-
     }
     const classes = useStyles();
     // State
@@ -59,13 +60,15 @@ function HomePage() {
     const elements = useElements();
 
     const handleSubmitPay = async (event) => {
+
         if (!stripe || !elements) {
             // Stripe.js has not yet loaded.
             // Make sure to disable form submission until Stripe.js has loaded.
             return;
         }
-        var clientSecret=null;
+        var clientSecret = null;
         console.log("object")
+        setLoading(true)
         // const res = axios.post(`${process.env.REACT_APP_BACKEND_URL}/pay`, tempData);
         await axios
             .post(`${process.env.REACT_APP_BACKEND_URL}/pay`, tempData)
@@ -73,7 +76,7 @@ function HomePage() {
                 if (!res.error) {
                     // alert("Payment Successfull");
                     // console.log("res", res.data['client_secret']);
-                    clientSecret=res.data['client_secret']
+                    clientSecret = res.data['client_secret']
                     // localStorage.setItem("order_id", res.data.order_id)
                     // localStorage.removeItem("order_id");
                     // localStorage.removeItem("myData");
@@ -83,7 +86,7 @@ function HomePage() {
                 }
             })
             .catch(error => {
-                console.log("err",error)
+                console.log("err", error)
                 console.log("Error While Generate Order");
             })
         // console.log("res", res.data)
@@ -101,10 +104,14 @@ function HomePage() {
         if (result.error) {
             // Show error to your customer (e.g., insufficient funds)
             console.log(result.error.message);
+            setLoading(false)
+            alert("Problem in Payment");
+
         } else {
             // The payment has been processed!
             if (result.paymentIntent.status === 'succeeded') {
                 alert("Payment Successfull");
+                setLoading(false)
                 localStorage.removeItem("order_id");
                 localStorage.removeItem("myData");
                 history.push("/apps/dropAndUpload");
@@ -113,10 +120,12 @@ function HomePage() {
                 // execution. Set up a webhook or plugin to listen for the
                 // payment_intent.succeeded event that handles any business critical
                 // post-payment actions.
-                console.log('You got 500$!');
+
             }
         }
     };
+
+   
 
 
     return (
@@ -139,7 +148,16 @@ function HomePage() {
                     <Button variant="contained" color="primary" className={classes.button} onClick={handleSubmitPay}>
                         Pay
                     </Button>
+                    {loading && (
+                        <div className={classes.button}>
+                            <Box sx={{ display: 'flex' }}>
+                                <CircularProgress />
+                            </Box>
+                        </div>
+                    )
+                    }
                 </div>
+
             </CardContent>
         </Card>
     );

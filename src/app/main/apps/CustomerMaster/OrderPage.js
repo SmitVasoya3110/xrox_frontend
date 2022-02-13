@@ -33,6 +33,7 @@ import HomePage from "./HomePage";
 
 import history from "@history";
 import FooterLayout1 from '../../../fuse-layouts/layout1/components/FooterLayout1';
+import { Box, CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {
@@ -44,7 +45,7 @@ const useStyles = makeStyles({
 });
 
 // the key is located in the .env file
-const stripePromise = loadStripe("pk_test_51KNpBmDiddQAhMW0Lzmb8Gbd8oIVJtbBQxqf73mYItt5rSbxhMeZ3X36qXQAZGxPlfX9QvnO9OJASoJyXy4tCHxq00dNLc3nH0");
+const stripePromise = loadStripe("pk_live_51KNpBmDiddQAhMW0KFEt4brL1aT9RrcKtj8wPeCiyE3UlWXBIna6jRIDCbh1ELxsM8CyStT9c9TTwu3u1H3fWa2500z2hWgEPm");
 
 let shouldSucceed = false;
 
@@ -60,19 +61,20 @@ function CustomerPayment(props) {
     const theme = useTheme();
 
     const classes = useStyles(props);
-    const temp_myData=localStorage.getItem("myData");
-    console.log("temp_myData",temp_myData);
-    const temp_order_id=localStorage.getItem("order_id");
-    if(!temp_myData || !temp_order_id ){
+    const temp_myData = localStorage.getItem("myData");
+    console.log("temp_myData", temp_myData);
+    const temp_order_id = localStorage.getItem("order_id");
+    if (!temp_myData || !temp_order_id) {
         history.push("/apps/dropAndUpload")
         window.location.reload();
     }
-    const data = JSON.parse(localStorage.getItem('myData')) 
+    const data = JSON.parse(localStorage.getItem('myData'))
     const order_id = parseInt(localStorage.getItem("order_id"))
 
     const tp = data.Total_Pages.toString()
     const tc = data.Total_Cost.toString()
     const userData = JSON.parse(localStorage.getItem('current_user'))
+    const [loading, setLoading] = useState(false)
     console.log("userData", userData)
     // console.log("data", userData.user.data.displayName)
 
@@ -81,6 +83,7 @@ function CustomerPayment(props) {
 
 
     function handleSuccess() {
+        setLoading(true)
         // event.preventDefault();
         console.log("mydataaa:", data)
         // console.log("transactionState", transactionState);
@@ -89,7 +92,7 @@ function CustomerPayment(props) {
         const tempData = {
             user_id: userData.user.uuid,
             docFormat: data.docFormat,
-            pageFormat:data.pageFormat,
+            pageFormat: data.pageFormat,
             fileNames: data.fileNames,
             Total_Cost: data.Total_Cost,
             email: userData.user.data.email,
@@ -103,6 +106,7 @@ function CustomerPayment(props) {
             .post(`${process.env.REACT_APP_BACKEND_URL}/confirm/order`, tempData)
             .then(res => {
                 if (!res.error) {
+                    setLoading(false)
                     alert("Payment Successfull");
                     console.log("res", res.data);
                     // localStorage.setItem("order_id", res.data.order_id)
@@ -114,6 +118,8 @@ function CustomerPayment(props) {
                 }
             })
             .catch(error => {
+                setLoading(false)
+                alert("Pronlem in Payment");
                 console.log("Error While Generate Order");
             })
 
@@ -316,6 +322,12 @@ function CustomerPayment(props) {
                                     buttonColor='black'
                                     buttonType='pay'
                                 />
+                                {loading && (
+                                    
+                                        <CircularProgress style={{marginLeft:"2em"}} />
+                                    
+                                )
+                                }
                             </div>
                             <h3 className="pt-16 mb-3 ml-3"><b>PAY WITH CARD</b></h3>
                             <div className="mb-60">
