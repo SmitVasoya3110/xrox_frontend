@@ -76,7 +76,7 @@ export const setUserData = user => async (dispatch, getState) => {
      */
 
 	history.location.state = {
-		redirectUrl: "/apps/dropAndUpload" // for example 'apps/academy'
+		redirectUrl: "/apps/dropAndUpload/new" // for example 'apps/academy'
 	};
 
 	/*

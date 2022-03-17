@@ -25,7 +25,7 @@ const routes = [
 	{
 		path: '/',
 		exact: true,
-		component: () => <Redirect to="/apps/dropAndUpload" />
+		component: () => <Redirect to="/apps/dropAndUpload/new" />
 	},
 	{
 		component: () => <Redirect to="/errors/error-404" />,

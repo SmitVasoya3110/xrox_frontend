@@ -45,7 +45,7 @@ const useStyles = makeStyles({
 });
 
 // the key is located in the .env file
-const stripePromise = loadStripe("pk_test_51KNpBmDiddQAhMW0Lzmb8Gbd8oIVJtbBQxqf73mYItt5rSbxhMeZ3X36qXQAZGxPlfX9QvnO9OJASoJyXy4tCHxq00dNLc3nH0");
+const stripePromise = loadStripe("pk_live_51KNpBmDiddQAhMW0KFEt4brL1aT9RrcKtj8wPeCiyE3UlWXBIna6jRIDCbh1ELxsM8CyStT9c9TTwu3u1H3fWa2500z2hWgEPm");
 
 let shouldSucceed = false;
 
@@ -64,9 +64,8 @@ function CustomerPayment(props) {
     const temp_myData = localStorage.getItem("myData");
     console.log("temp_myData", temp_myData);
     const temp_order_id = localStorage.getItem("order_id");
-    let timestamp = localStorage.getItem("timeStemp");
     if (!temp_myData || !temp_order_id) {
-        history.push("/apps/dropAndUpload/new")
+        history.push("/apps/dropAndUpload")
         window.location.reload();
     }
     const data = JSON.parse(localStorage.getItem('myData'))
@@ -94,18 +93,17 @@ function CustomerPayment(props) {
             user_id: userData.user.uuid,
             // docFormat: data.docFormat,
             // pageFormat: data.pageFormat,
-            files: data.numbers,
-            amount: data.Total_Cost,
+            fileNames: data.numbers,
+            Total_Cost: data.Total_Cost,
             email: userData.user.data.email,
             order_id: order_id,
-            displayName: userData.user.data.displayName,
-            timestamp:timestamp
+            displayName: userData.user.data.displayName
 
 
         }
         console.log("tempData", tempData);
         axios
-            .post(`${process.env.REACT_APP_BACKEND_URL}/pay`, tempData)
+            .post(`${process.env.REACT_APP_BACKEND_URL}/confirm/order`, tempData)
             .then(res => {
                 if (!res.error) {
                     setLoading(false)
@@ -114,11 +112,9 @@ function CustomerPayment(props) {
                     // localStorage.setItem("order_id", res.data.order_id)
                     localStorage.removeItem("order_id");
                     localStorage.removeItem("myData");
-                    localStorage.removeItem("timestamp");
-                    localStorage.setItem("timeStemp",Math.floor(Date.now() /1000))
 
 
-                    history.push("/apps/dropAndUpload/new");
+                    history.push("/apps/dropAndUpload");
                 }
             })
             .catch(error => {
@@ -147,7 +143,7 @@ function CustomerPayment(props) {
                                         className="normal-case flex items-center sm:mb-12"
                                         component={Link}
                                         role="button"
-                                        to="/apps/dropAndUpload/new"
+                                        to="/apps/dropAndUpload"
                                         color="inherit"
                                     >
                                         <Icon className="text-20">
@@ -245,7 +241,21 @@ function CustomerPayment(props) {
                                             </TableCell>
                                         </TableRow>
                                     </TableBody> */}
-                                    
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell component="th" className="whitespace-nowrap" scope="row">
+                                                {"Files Name(s)"}
+                                            </TableCell>
+                                            <TableCell align="left">
+                                                {/* {data.fileNames.toString()} */}
+                                                {/* {
+                                                    data.fileNames.map(f => {
+                                                        return (<p className="whitespace-nowrap" >{f}</p>)
+                                                    })
+                                                } */}
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
                                 </Table>
                             </TableContainer>
 

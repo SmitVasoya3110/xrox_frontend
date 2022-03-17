@@ -25,10 +25,7 @@ import "./style.css"
 import history from "@history";
 import FuseLoading from "@fuse/core/FuseLoading";
 
-const current_user=JSON.parse(localStorage.getItem("current_user"));
-
 export default class dropAndUploadDoc extends Component {
-    
     constructor(props) {
         super(props)
         this.state = {
@@ -97,7 +94,6 @@ export default class dropAndUploadDoc extends Component {
 
 
         if (this.state.files.length && this.state.docFormat.length !== 0 && this.state.pageFormat.length !== 0) {
-            const timestamp=localStorage.getItem("timeStemp");
             console.log("document :", this.state.docFormat)
             console.log("files :", this.state.files)
             let fileData = null;
@@ -105,45 +101,41 @@ export default class dropAndUploadDoc extends Component {
                 fData.append("files[]", this.state.files[i]);
                 fileNames[i] = this.state.files[i].name
             }
-            fData.append("pageFormat", this.state.docFormat)
-            fData.append("docFormat", this.state.pageFormat)
-            fData.append("timestamp",timestamp)
-            fData.append("user_id",current_user.user.uuid)
+            fData.append("docFormat", this.state.docFormat)
+            fData.append("pageFormat", this.state.pageFormat)
             fileData = fData;
             console.log("fileNames", fileNames)
-            console.log("timestemp",current_user.user.uuid)
 
 
             console.log("Filedata", fileData);
             this.setState({ loading: true });
             await axios
-                .post(`${process.env.REACT_APP_BACKEND_URL}/upload-to-cart`, fileData)
-                // .post(`http://172.105.56.110:8000/upload-to-cart`, fileData)
+                .post(`${process.env.REACT_APP_BACKEND_URL}/multiple-files-upload`, fileData)
                 .then((res) => {
                     // setFileData(null);
                     console.log("ressssssssssss:", res);
-                    // console.log("Total Cost ::", res.data.numbers.Total_Cost)
-                    // myData["Total_Pages"] = res.data.numbers.Total_Pages
-                    // myData["Total_Cost"] = res.data.numbers.Total_cost
-                    // myData["fileNames"] = fileNames
-                    // myData["docFormat"] = this.state.docFormat
-                    // myData["pageFormat"] = this.state.pageFormat
+                    console.log("Total Cost ::", res.data.numbers.Total_Cost)
+                    myData["Total_Pages"] = res.data.numbers.Total_Pages
+                    myData["Total_Cost"] = res.data.numbers.Total_cost
+                    myData["fileNames"] = fileNames
+                    myData["docFormat"] = this.state.docFormat
+                    myData["pageFormat"] = this.state.pageFormat
 
-                    // console.log("mydataaaa", myData)
-                    // // this.state.total_price=res.data.numbers.Total_Cost
-                    // this.setState({
-                    //     total_price: res.data.numbers.Total_Cost
-                    // }, () => {
-                    //     console.log(this.state)
-                    // })
-                    // localStorage.setItem('myData', JSON.stringify(myData));
-                    // // localStorage.setItem('files', JSON.stringify(myData));
-                    // // setErr([]);
-                    // this.setState({ loading: false });
+                    console.log("mydataaaa", myData)
+                    // this.state.total_price=res.data.numbers.Total_Cost
+                    this.setState({
+                        total_price: res.data.numbers.Total_Cost
+                    }, () => {
+                        console.log(this.state)
+                    })
+                    localStorage.setItem('myData', JSON.stringify(myData));
+                    // localStorage.setItem('files', JSON.stringify(myData));
+                    // setErr([]);
+                    this.setState({ loading: false });
 
                     alert("File Upload successfully!");
                     // let backPath = "/apps/custometPayment";
-                    history.push("/apps/cartList")
+                    history.push("/apps/custometPayment")
                 })
                 .catch((error) => {
                     // props.history.push(backPath)

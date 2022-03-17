@@ -61,11 +61,12 @@ function CustomerPayment(props) {
     const temp_myData=localStorage.getItem("myData");
     console.log("temp_myData",temp_myData);
     if(!temp_myData){
-        history.push("/apps/dropAndUpload")
+        history.push("/apps/dropAndUpload/new")
         window.location.reload();
     }
     const data = JSON.parse(localStorage.getItem('myData'))
-    const tp = data.Total_Pages.toString()
+    const tp = data.numbers
+    console.log("tppppppp",tp)
     const tc = data.Total_Cost.toString()
     const userData = JSON.parse(localStorage.getItem('current_user'))
     // console.log("userData", userData.user)
@@ -105,10 +106,9 @@ function CustomerPayment(props) {
         event.preventDefault();
         const tempData = {
             user_id: userData.user.uuid,
-            type: data.docFormat,
-            files: data.fileNames,
+            files: data.numbers,
             amount: data.Total_Cost,
-            pageFormat:data.pageFormat
+            
         }
         console.log("tempData", tempData);
         await axios
@@ -145,7 +145,7 @@ function CustomerPayment(props) {
                                         className="normal-case flex items-center sm:mb-12"
                                         component={Link}
                                         role="button"
-                                        to="/apps/dropAndUpload"
+                                        to="/apps/dropAndUpload/new"
                                         color="inherit"
                                     >
                                         <Icon className="text-20">
@@ -198,9 +198,9 @@ function CustomerPayment(props) {
                                             title="Contemplative Reptile"
                                         />
                                         <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2">
+                                            {/* <Typography gutterBottom variant="h5" component="h2">
                                                 Total Pages : <b>{tp}</b>
-                                            </Typography>
+                                            </Typography> */}
                                             <Typography gutterBottom variant="h5" component="h2">
                                                 Total Amount : <b>${tc}</b>
                                             </Typography>

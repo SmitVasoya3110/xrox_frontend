@@ -5,6 +5,7 @@ import Register3PageConfig from '../register-3/Register3PageConfig';
 
 import customerAppConfigs from './CustomerMaster/customerAppConfig';
 import ResetPasswordPageConfig from '../Reset_Password/ResetPasswordConfig'
+import CartAppConfigs from './cartMaster/cartAppConfig';
 
 const appsConfigs = [
 	Error404PageConfig,
@@ -13,7 +14,8 @@ const appsConfigs = [
 	Register3PageConfig,
 	
 	customerAppConfigs,
-	ResetPasswordPageConfig
+	ResetPasswordPageConfig,
+	CartAppConfigs
 	
 ];
 

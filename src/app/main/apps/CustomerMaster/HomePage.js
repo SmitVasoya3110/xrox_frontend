@@ -44,13 +44,15 @@ function HomePage() {
     const data = JSON.parse(localStorage.getItem('myData'))
     const userData = JSON.parse(localStorage.getItem('current_user'))
     const order_id = parseInt(localStorage.getItem("order_id"))
+    let timestamp = localStorage.getItem("timeStemp");
     const [loading, setLoading] = useState(false)
     const tempData = {
         user_id: userData.user.uuid,
         files: data.fileNames,
-        amount: data.Total_Cost,
+        amount: data.numbers,
         email: userData.user.data.email,
-        order_id: order_id
+        order_id: order_id,
+        timestamp:timestamp
     }
     const classes = useStyles();
     // State
@@ -114,6 +116,8 @@ function HomePage() {
                 setLoading(false)
                 localStorage.removeItem("order_id");
                 localStorage.removeItem("myData");
+                localStorage.removeItem("timestamp");
+                localStorage.setItem("timeStemp",Math.floor(Date.now() /1000))
                 history.push("/apps/dropAndUpload");
                 // Show a success message to your customer
                 // There's a risk of the customer closing the window before callback

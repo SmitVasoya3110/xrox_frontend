@@ -62,6 +62,7 @@ class JwtService extends FuseUtils.EventEmitter {
 						// console.log(expired_time);
 						// sessionStorage.setItem("current_time",current_time );
 						localStorage.setItem("expired_time", expired_time);
+						localStorage.setItem("timeStemp",Math.floor(Date.now() /1000))
 						console.log("response ::",response);
 						localStorage.setItem('current_user', JSON.stringify(response.data));
 						console.log("response111 ::",response.data.user);

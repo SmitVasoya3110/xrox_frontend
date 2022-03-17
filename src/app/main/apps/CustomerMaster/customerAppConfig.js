@@ -13,7 +13,7 @@ const customerAppConfigs = {
             component: React.lazy(() => import("./customerPayment")),
         },
         {
-            path: "/apps/dropAndUpload",
+            path: "/apps/dropAndUpload/:type_id",
             component: React.lazy(() => import("./dropAndUploadDoc")),
         },
         {
