@@ -48,8 +48,8 @@ function HomePage() {
     const [loading, setLoading] = useState(false)
     const tempData = {
         user_id: userData.user.uuid,
-        files: data.fileNames,
-        amount: data.numbers,
+        files: data.numbers,
+        amount: data.Total_Cost,
         email: userData.user.data.email,
         order_id: order_id,
         timestamp:timestamp
@@ -118,7 +118,7 @@ function HomePage() {
                 localStorage.removeItem("myData");
                 localStorage.removeItem("timestamp");
                 localStorage.setItem("timeStemp",Math.floor(Date.now() /1000))
-                history.push("/apps/dropAndUpload");
+                history.push("/apps/dropAndUpload/new");
                 // Show a success message to your customer
                 // There's a risk of the customer closing the window before callback
                 // execution. Set up a webhook or plugin to listen for the
