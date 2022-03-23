@@ -34,6 +34,8 @@ function ShiftTableHead(props) {
 	const [page, setPage] = useState(0)
 	const [size, setSize] = useState(10)
 	const [loading, setLoading] = useState(true);
+	const timestamp=localStorage.getItem("timeStemp");
+	const current_user=JSON.parse(localStorage.getItem("current_user"));
 	// const [row, setRow] = useState({})
 	// const handleActiveStatus = (temp) => {
 	// 	console.log("TEMPPPPP ::", temp)
@@ -48,10 +50,9 @@ function ShiftTableHead(props) {
 	// }
 
 	useEffect(() => {
-		let timestamp=localStorage.getItem("timeStemp");
-		let current_user=JSON.parse(localStorage.getItem("current_user"));
+		
 
-		dispatch(getShiftLists({ timestamp: timestamp, user_id: current_user.user.uuid })).then(() => setLoading(false))
+		dispatch(getShiftLists({ timestamp: timestamp, user_id: current_user.user.uuid })).then(() => setLoading(false)).catch(() => setData([]))
 		// const obj = {
 		// 	user_id:28,
 		// 	timestamp:1647093015920
@@ -76,7 +77,7 @@ function ShiftTableHead(props) {
 
         //             // setErr(error.response.data.message);
         //         });
-	}, [dispatch, size, page]);
+	}, [dispatch,timestamp]);
 
 	useEffect(() => {
 		setData(Entries)
@@ -266,15 +267,7 @@ function ShiftTableHead(props) {
 			</div>
 		);
 	}
-	else{
-		console.log("cart data ",data)
-		const uploadObject = data.map(rowData => rowData.server_file_name);
-		console.log("cart data filr name ",uploadObject)
-		let timestamp=localStorage.getItem("timeStemp");
-		let current_user=JSON.parse(localStorage.getItem("current_user"));
-
-		<CartHeader  files={uploadObject}  timestamp={timestamp} user_id={ current_user.user.uuid} /> 
-	}
+	
 
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={300}>

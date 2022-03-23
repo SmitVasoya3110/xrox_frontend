@@ -39,7 +39,7 @@ function CartHeader(props) {
 				console.log("Total Cost ::", res.data.Total_Cost)
 				// myData["Total_Pages"] = res.data.numbers.Total_Pages
 				myData["Total_Cost"] = res.data.Total_Cost
-				myData["numbers"] = res.data.numbers
+				myData["numbers"] = uploadObject
 				// myData["fileNames"] = fileNames
 				// myData["docFormat"] = this.state.docFormat
 				// myData["pageFormat"] = this.state.pageFormat
