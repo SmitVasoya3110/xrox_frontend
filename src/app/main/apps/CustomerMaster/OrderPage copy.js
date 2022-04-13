@@ -45,7 +45,7 @@ const useStyles = makeStyles({
 });
 
 // the key is located in the .env file
-const stripePromise = loadStripe("pk_live_51KNpBmDiddQAhMW0KFEt4brL1aT9RrcKtj8wPeCiyE3UlWXBIna6jRIDCbh1ELxsM8CyStT9c9TTwu3u1H3fWa2500z2hWgEPm");
+const stripePromise = loadStripe("pk_test_51KNpBmDiddQAhMW0Lzmb8Gbd8oIVJtbBQxqf73mYItt5rSbxhMeZ3X36qXQAZGxPlfX9QvnO9OJASoJyXy4tCHxq00dNLc3nH0");
 
 let shouldSucceed = false;
 
