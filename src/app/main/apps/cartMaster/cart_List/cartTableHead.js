@@ -7,6 +7,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FuseLoading from '@fuse/core/FuseLoading';
+import TextField from '@material-ui/core/TextField';
 
 
 import MultiSelectMenu from './cartMenu';
@@ -17,6 +18,11 @@ import { getShiftLists, selectShiftList } from '../../../Redux_Store/Shift_Slice
 import { updateShift } from '../../../Redux_Store/Shift_Slice/shiftAdd_Slice'
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
+
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+// import Button from "@material-ui/core/Button";
+// import "../../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css"
 
 
 function ShiftTableHead(props) {
@@ -34,8 +40,89 @@ function ShiftTableHead(props) {
 	const [page, setPage] = useState(0)
 	const [size, setSize] = useState(10)
 	const [loading, setLoading] = useState(true);
-	const timestamp=localStorage.getItem("timeStemp");
-	const current_user=JSON.parse(localStorage.getItem("current_user"));
+	const timestamp = localStorage.getItem("timeStemp");
+	const current_user = JSON.parse(localStorage.getItem("current_user"));
+
+	const [num, setNum] = useState(0);
+
+	const handleChange1 = async (e, row) => {
+		e.target.value < 0
+			? (e.target.value = 0)
+			: e.target.value
+		console.log("EE value ", e.target.value)
+		console.log("row", row);
+		// setNum(e.target.value);
+		const tData = JSON.parse(window.localStorage.getItem('temData'));
+		console.log("tData  ", tData);
+		let t = [];
+		await tData.forEach(el => {
+			if (el.server_file_name === row.server_file_name) {
+				let temp = el
+				temp.qty = e.target.value;
+				t.push(temp)
+			} else {
+				t.push(el)
+			}
+		})
+		setData(t);
+		window.localStorage.setItem('temData', JSON.stringify(t))
+	}
+
+	const IncNum = async (row) => {
+		console.log("IncNum ", row)
+		// setCount(count + 1);
+		const tData = JSON.parse(window.localStorage.getItem('temData'));
+		console.log("tData  ", tData);
+		let t = [];
+		await tData.forEach(el => {
+			if (el.server_file_name === row.server_file_name) {
+				let temp = el
+				temp.qty = parseInt(row.qty) + 1;
+				t.push(temp)
+			} else {
+				t.push(el)
+			}
+		})
+		setData(t);
+		window.localStorage.setItem('temData', JSON.stringify(t))
+	};
+	const DecNum = async (row) => {
+		console.log("DecNum ", row)
+		if ( parseInt(row.qty) > 0) {
+			const tData = JSON.parse(window.localStorage.getItem('temData'));
+			console.log("tData  ", tData);
+			let t = [];
+			await tData.forEach(el => {
+				if (el.server_file_name === row.server_file_name) {
+					let temp = el
+					temp.qty = parseInt(row.qty) - 1;
+					t.push(temp)
+				} else {
+					t.push(el)
+				}
+			})
+			setData(t);
+			window.localStorage.setItem('temData', JSON.stringify(t))
+		}
+		else {
+			const tData = JSON.parse(window.localStorage.getItem('temData'));
+			console.log("tData  ", tData);
+			let t = [];
+			await tData.forEach(el => {
+				if (el.server_file_name === row.server_file_name) {
+					let temp = el
+					temp.qty = 0;
+					t.push(temp)
+				} else {
+					t.push(el)
+				}
+			})
+			setData(t);
+			window.localStorage.setItem('temData', JSON.stringify(t))
+			alert("min limit reached");
+		}
+
+	};
 	// const [row, setRow] = useState({})
 	// const handleActiveStatus = (temp) => {
 	// 	console.log("TEMPPPPP ::", temp)
@@ -50,7 +137,7 @@ function ShiftTableHead(props) {
 	// }
 
 	useEffect(() => {
-		
+
 
 		dispatch(getShiftLists({ timestamp: timestamp, user_id: current_user.user.uuid })).then(() => setLoading(false)).catch(() => setData([]))
 		// const obj = {
@@ -59,29 +146,30 @@ function ShiftTableHead(props) {
 		// }
 		// console.log("OBJECT ::",obj)
 		// axios
-        //         .post(`${process.env.REACT_APP_BACKEND_URL}/fetch-user-files`,
+		//         .post(`${process.env.REACT_APP_BACKEND_URL}/fetch-user-files`,
 		// 			obj
 		// 		)
-        //         .then((res) => {
-        //             // setFileData(null);
-        //             console.log("ressssssssssss:", res);
-                   
-        //         })
-        //         .catch((error) => {
-        //             // props.history.push(backPath)
-        //             console.log("ERRRRRRRRRRRRRR:", error);
-        //             // setFileData(null);
-        //             // this.setState({ loading: false });
-		// 			setLoading(false)
-        //             // alert("File Is Not Valid!");
+		//         .then((res) => {
+		//             // setFileData(null);
+		//             console.log("ressssssssssss:", res);
 
-        //             // setErr(error.response.data.message);
-        //         });
-	}, [dispatch,timestamp]);
+		//         })
+		//         .catch((error) => {
+		//             // props.history.push(backPath)
+		//             console.log("ERRRRRRRRRRRRRR:", error);
+		//             // setFileData(null);
+		//             // this.setState({ loading: false });
+		// 			setLoading(false)
+		//             // alert("File Is Not Valid!");
+
+		//             // setErr(error.response.data.message);
+		//         });
+	}, [dispatch, timestamp]);
 
 	useEffect(() => {
-		setData(Entries)
-		
+		const tData = JSON.parse(window.localStorage.getItem('temData'));
+		console.log("tData", tData);
+		setData(tData)
 	}, [Entries]);
 
 
@@ -145,58 +233,7 @@ function ShiftTableHead(props) {
 				// ),
 				sortable: false
 			},
-			// {
-			// 	Header: 'ACTIVE',
-			// 	accessor: 'activeStatus',
-			// 	sortable: true,
 
-			// 	// eslint-disable-next-line
-			// 	Cell: props => {
-			// 		try {
-
-			// 			let tempValue = props.row.original.activeStatus
-			// 			let temp = { "id": props.row.original.id, "activeStatus": tempValue }
-
-			// 			if (tempValue.toString() === '1') {
-			// 				temp = { "id": props.row.original.id, "activeStatus": "0" }
-			// 				return <span onClick={() => handleActiveStatus({ temp })}>
-
-			// 					<Tooltip
-			// 						title="Active"
-			// 						arrow
-			// 					>
-			// 						<Icon className="text-green text-20">check_circle</Icon>
-			// 					</Tooltip>
-			// 				</span>
-
-
-			// 			}
-			// 			if (tempValue.toString() === '0') {
-			// 				console.log("temp11111 ::", temp)
-			// 				temp = { "id": props.row.original.id, "activeStatus": "1" }
-			// 				return <span onClick={() => handleActiveStatus({ temp })} >
-
-			// 					<Tooltip
-			// 						title="Deactivate"
-			// 						arrow
-			// 					>
-			// 						<Icon className="text-red text-20">remove_circle</Icon>
-			// 					</Tooltip>
-			// 				</span>
-
-
-			// 			}
-			// 			else {
-			// 				return tempValue;
-			// 			}
-			// 		} catch (error) {
-			// 			return (<>
-			// 				{props.row.original.activeStatus}
-			// 			</>)
-			// 		}
-
-			// 	},
-			// },
 
 			// {
 			// 	Header: 'ORDER NUMBER',
@@ -233,6 +270,31 @@ function ShiftTableHead(props) {
 				accessor: 'type',
 				sortable: false
 			},
+			{
+				Header: 'QUANTITY',
+				// accessor: 'activeStatus',
+				sortable: false,
+
+				// eslint-disable-next-line
+				Cell: ({ row }) => (
+
+					<>
+						<Button onClick={() => IncNum(row.original)} >
+							<AddIcon />
+						</Button>
+
+						<TextField type="number" value={row.original.qty} onChange={(e) => handleChange1(e, row.original)} />
+
+						<Button onClick={() => DecNum(row.original)}>
+							<RemoveIcon />
+						</Button>
+					</>
+
+				)
+
+
+
+			},
 
 		],
 		[dispatch, Entries.starred]
@@ -267,7 +329,7 @@ function ShiftTableHead(props) {
 			</div>
 		);
 	}
-	
+
 
 	return (
 		<FuseAnimate animation="transition.slideUpIn" delay={300}>
@@ -285,9 +347,9 @@ function ShiftTableHead(props) {
 				index={page}
 				size={size}
 			/>
-			
+
 		</FuseAnimate>
-		
+
 	);
 }
 

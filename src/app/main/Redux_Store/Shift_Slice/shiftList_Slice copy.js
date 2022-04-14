@@ -25,7 +25,15 @@ export const getShiftLists = createAsyncThunk('ERP/ShiftList/getShiftList', asyn
 	console.log("localData", localData);
 	data.forEach((element, index) => {
 		console.log("index for", index);
-
+		// if (element.server_file_name === localData?.[index]?.server_file_name) {
+		// 	temData.push(localData?.[index] || element)
+		// } else {
+		// 	let dic = {
+		// 		...element,
+		// 		qty: 0
+		// 	}
+		// 	temData.push(dic)
+		// }
 		const found = localData.find(element1 => element1.server_file_name === element.server_file_name);
 
 		console.log("found", found);
@@ -37,12 +45,11 @@ export const getShiftLists = createAsyncThunk('ERP/ShiftList/getShiftList', asyn
 			temData.push(dic)
 		}
 		else{
-			temData.push(found)
+			temData.push(localData?.[index] || element)
 		}
-
+		
 
 	});
-	
 	console.log("final data", temData)
 	// if (window.localStorage.getItem('temData')) {
 	// 	let abc = 0;

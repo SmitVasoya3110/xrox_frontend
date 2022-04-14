@@ -116,6 +116,7 @@ function HomePage() {
                 setLoading(false)
                 localStorage.removeItem("order_id");
                 localStorage.removeItem("myData");
+                localStorage.removeItem("temData");
                 localStorage.removeItem("timestamp");
                 localStorage.setItem("timeStemp",Math.floor(Date.now() /1000))
                 history.push("/apps/dropAndUpload/new");

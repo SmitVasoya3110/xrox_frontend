@@ -19,16 +19,28 @@ function CartHeader(props) {
 	let timestamp = localStorage.getItem("timeStemp");
 	let current_user = JSON.parse(localStorage.getItem("current_user"));
 	let user_id = current_user.user.uuid
+	
+	
 	// const { files, timestamp, user_id } = props;
 	console.log("files, timestamp,user_id", timestamp, current_user)
 	const uploadShift = async()=>{
-		const uploadObject = Entries.map(rowData => rowData.server_file_name);
-		console.log("heloooooooooooooooooo", uploadObject)
+		// const uploadObject = Entries.map(rowData => rowData.server_file_name);
+		const localData = JSON.parse(window.localStorage.getItem('temData')) || [];
+		const temData = [];
+		localData.forEach((element) => {
+			let dic = {
+				file:element.server_file_name,
+				quantity: element.qty
+			}
+			temData.push(dic)
+		});
+		console.log("heloooooooooooooooooo", temData)
 		const obj = {
 			"user_id":user_id,
 			"timestamp":timestamp,
-			"files":uploadObject
+			"files":temData
 		}
+		console.log("heloooooooooooooooooo oBJJJ", obj)
 		let myData = {};
 		await axios
 			.post(`${process.env.REACT_APP_BACKEND_URL}/calcuate-final-cart`, obj)
@@ -39,7 +51,7 @@ function CartHeader(props) {
 				console.log("Total Cost ::", res.data.Total_Cost)
 				// myData["Total_Pages"] = res.data.numbers.Total_Pages
 				myData["Total_Cost"] = res.data.Total_Cost
-				myData["numbers"] = uploadObject
+				myData["numbers"] = temData
 				// myData["fileNames"] = fileNames
 				// myData["docFormat"] = this.state.docFormat
 				// myData["pageFormat"] = this.state.pageFormat
@@ -73,7 +85,7 @@ function CartHeader(props) {
 			});
 	}
 	return (
-		<div className="flex flex-1 items-center justify-between p-4 sm:p-24">
+		<div className="flex flex-1 items-center p-4 sm:p-24">
 			<div className="flex flex-shrink items-center sm:w-224">
 				<Hidden lgUp>
 					<IconButton
@@ -105,12 +117,12 @@ function CartHeader(props) {
 				<Button
 					component={Link}
 					to="/apps/dropAndUpload/new"
-					className="whitespace-no-wrap normal-case"
+					className="whitespace-no-wrap normal-case mx-10"
 					variant="contained"
 					color="secondary"
 				>
-					<span className="hidden sm:flex">Add To Cart</span>
-					<span className="flex sm:hidden">New</span>
+					<span className="hidden sm:flex">AddOrder</span>
+					<span className="flex sm:hidden">ADD</span>
 				</Button>
 
 
@@ -133,7 +145,7 @@ function CartHeader(props) {
 
 				>
 					<span className="hidden sm:flex">Check Out</span>
-					<span className="flex sm:hidden">New</span>
+					<span className="flex sm:hidden">CheckOut</span>
 				</Button>
 			</FuseAnimate>
 		</div>

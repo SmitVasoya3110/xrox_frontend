@@ -139,7 +139,7 @@ const EnhancedTable = ({ columns, data, index, size, funcSetIndex, funcsetSize }
 					</TableBody>
 				</Table>
 			</TableContainer>
-			<TablePagination
+			{/* <TablePagination
 				component="div"
 				classes={{
 					root: 'flex-shrink-0 border-t-1'
@@ -156,7 +156,7 @@ const EnhancedTable = ({ columns, data, index, size, funcSetIndex, funcsetSize }
 				onChangePage={handleChangePage}
 				onChangeRowsPerPage={handleChangeRowsPerPage}
 				ActionsComponent={CustomeTablePagination}
-			/>
+			/> */}
 		</div>
 	);
 };

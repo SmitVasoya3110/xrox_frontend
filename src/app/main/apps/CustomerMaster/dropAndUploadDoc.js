@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from "@material-ui/core/Typography";
 import axios from "axios";
 import Files from 'react-files';
+import { Link } from 'react-router-dom';
 
 import FooterLayout1 from '../../../fuse-layouts/layout1/components/FooterLayout1';
 
@@ -25,10 +26,10 @@ import "./style.css"
 import history from "@history";
 import FuseLoading from "@fuse/core/FuseLoading";
 
-const current_user=JSON.parse(localStorage.getItem("current_user"));
+const current_user = JSON.parse(localStorage.getItem("current_user"));
 
 export default class dropAndUploadDoc extends Component {
-    
+
     constructor(props) {
         super(props)
         this.state = {
@@ -97,7 +98,7 @@ export default class dropAndUploadDoc extends Component {
 
 
         if (this.state.files.length && this.state.docFormat.length !== 0 && this.state.pageFormat.length !== 0) {
-            const timestamp=localStorage.getItem("timeStemp");
+            const timestamp = localStorage.getItem("timeStemp");
             console.log("document :", this.state.docFormat)
             console.log("files :", this.state.files)
             let fileData = null;
@@ -107,11 +108,11 @@ export default class dropAndUploadDoc extends Component {
             }
             fData.append("pageFormat", this.state.docFormat)
             fData.append("docFormat", this.state.pageFormat)
-            fData.append("timestamp",timestamp)
-            fData.append("user_id",current_user.user.uuid)
+            fData.append("timestamp", timestamp)
+            fData.append("user_id", current_user.user.uuid)
             fileData = fData;
             console.log("fileNames", fileNames)
-            console.log("timestemp",current_user.user.uuid)
+            console.log("timestemp", current_user.user.uuid)
 
 
             console.log("Filedata", fileData);
@@ -141,7 +142,7 @@ export default class dropAndUploadDoc extends Component {
                     // // setErr([]);
                     // this.setState({ loading: false });
 
-                    alert("File Upload successfully!");
+                    // alert("File Upload successfully!");
                     // let backPath = "/apps/custometPayment";
                     history.push("/apps/cartList")
                 })
@@ -193,6 +194,20 @@ export default class dropAndUploadDoc extends Component {
                                         </div>
                                     </div>
                                 </div>
+                                <FuseAnimate animation="transition.slideRightIn" delay={300}>
+                                    <Button
+                                        component={Link}
+                                        to="/apps/cartList"
+                                        className="whitespace-no-wrap normal-case mx-10"
+                                        variant="contained"
+                                        color="secondary"
+                                    >
+                                        <span className="hidden sm:flex">Cart</span>
+                                        <span className="flex sm:hidden">Cart</span>
+                                    </Button>
+
+
+                                </FuseAnimate>
 
                             </div>
                         }
@@ -276,8 +291,33 @@ export default class dropAndUploadDoc extends Component {
                                         }
                                     </TextField>
                                 </div>
+                                {/* <div className="p-16">
+                                <TextField
+                                        className="mt-8 mb-16 mx-4"
+                                        id="pageFormate"
+                                        name="pageFormate"
+                                        type="number"
+                                        label="Page Type"
+                                        // value={form.Designation}
+                                        //value={handleSupplierType()}
+                                        // disabled={form.itemCategoryId === ""}
+                                        // onChange={handleChangeDocFormate}
+                                        value={this.state.pageFormat}
+                                        // onClick={(e) => this.setState({ docFormat: e.target.value })}
+                                        onChange={(event) => this.handlePageFormate(event)}
+                                        SelectProps={{
+                                            native: true,
+                                        }}
+                                        variant="outlined"
+                                        // fullWidth
+                                        // size="medium"
+                                        style={{ width: "40%" }}
+                                    >
+                                        
+                                    </TextField>
+                                </div> */}
                                 <div className="flex justify-center sm:justify-start p-16 " >
-                                    <div className="files p-16" style={{ border: "2px black dotted", width: "300px", justifyContent: "center", alignItems: "center", display: "flex" }}>
+                                    <div className="files p-16" style={{ border: "2px black solid", width: "300px", justifyContent: "center", alignItems: "center", display: "flex" }}>
                                         <Files
                                             ref='files'
                                             className='files-dropzone '
@@ -288,11 +328,12 @@ export default class dropAndUploadDoc extends Component {
                                             multiple
                                             maxFiles={10}
                                             maxFileSize={25000000}
-                                            accepts={['image/jpg','image/png','image/jpeg', '.pdf', '.doc', '.docx']}
+                                            accepts={['image/jpg', 'image/png', 'image/jpeg', '.pdf', '.doc', '.docx']}
                                             minFileSize={0}
                                             clickable
                                         >
-                                            Drop files here or click to upload
+                                            <Icon className="text-32">save_alt</Icon>
+                                            {/* Drop files here or click to upload */}
                                         </Files>
                                     </div>
                                 </div>
@@ -333,7 +374,7 @@ export default class dropAndUploadDoc extends Component {
                                     }
                                 </div>
                                 <div className="pt-32">
-                                    <FuseAnimate animation="transition.slideRightIn" delay={300} >
+                                    {/* <FuseAnimate animation="transition.slideRightIn" delay={300} >
                                         <Button
                                             // type="submit"
                                             className="whitespace-nowrap normal-case mr-20"
@@ -346,17 +387,17 @@ export default class dropAndUploadDoc extends Component {
                                             Remove All Files
                                         </Button>
 
-                                    </FuseAnimate>
+                                    </FuseAnimate> */}
                                     <FuseAnimate animation="transition.slideRightIn" delay={300}>
                                         <Button
                                             type="submit"
-                                            className="whitespace-nowrap normal-case"
+                                            className="whitespace-nowrap normal-case  mr-20"
                                             variant="contained"
                                             color="secondary"
                                             // onClick={(event) => handleClick(event)}
                                             onClick={this.handleClick}
                                         >
-                                            Upload
+                                            Next
                                         </Button>
 
                                     </FuseAnimate>

@@ -51,7 +51,7 @@ function MultiSelectMenu(props) {
 				aria-haspopup="true"
 				onClick={openSelectedContactMenu}
 			>
-				<Icon>more_horiz</Icon>
+				<Icon>delete</Icon>
 			</IconButton>
 			<Menu
 				id="selectedMenu"

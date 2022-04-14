@@ -20,9 +20,9 @@ function FooterLayout1(props) {
 				color="default"
 				style={{ backgroundColor: footerTheme.palette.background.paper , top:'unset',bottom:'0'}}
 			>
-				<Toolbar className="min-h-48 md:min-h-64 px-8 sm:px-12 py-0 flex items-center overflow-x-auto">
-					<Typography ><b>
-						<a style={{marginLeft : '300px'}} href='https://www.fairtrading.nsw.gov.au/buying-products-and-services/repairs,-replacements-and-refunds#when'>
+				<Toolbar className="min-h-48 md:min-h-64 px-8 sm:px-12 py-0 flex items-center overflow-x-auto" style={{justifyContent: "flex-end"}}>
+					<Typography ><b className="flex items-center" >
+						<a style={{marginRight: '20px'}} href='https://www.fairtrading.nsw.gov.au/buying-products-and-services/repairs,-replacements-and-refunds#when'>
 							Refunds Policy</a>
 						<a className='ml-8'href='https://www.accc.gov.au/about-us/using-our-website/short-form-privacy-policy'>Privacy policy</a>
 					</b>
