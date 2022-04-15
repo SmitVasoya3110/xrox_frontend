@@ -283,7 +283,7 @@ function ShiftTableHead(props) {
 							<AddIcon />
 						</Button>
 
-						<TextField type="number" value={row.original.qty} onChange={(e) => handleChange1(e, row.original)} />
+						<TextField style={{width: '20%'}} type="number" value={row.original.qty} onChange={(e) => handleChange1(e, row.original)} />
 
 						<Button onClick={() => DecNum(row.original)}>
 							<RemoveIcon />

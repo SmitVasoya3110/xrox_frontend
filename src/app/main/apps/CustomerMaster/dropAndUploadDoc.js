@@ -174,8 +174,8 @@ export default class dropAndUploadDoc extends Component {
 
         return (
             <div>
-                <form encType="multipart/form-data" method="post" className="flex flex-1 w-full items-center justify-between">
-                    <FusePageCarded
+                <form encType="multipart/form-data" method="post" className="flex flex-1 w-full items-center justify-between" style={{overflow: 'unset'}}>
+                    <FusePageCarded 
                         classes={{
                             toolbar: "p-0",
                             header: "min-h-72 h-72 sm:h-136 sm:min-h-136",
@@ -217,13 +217,13 @@ export default class dropAndUploadDoc extends Component {
                                     <FuseAnimate animation="transition.expandIn">
                                         <Icon className="text-32">attach_file</Icon>
                                     </FuseAnimate>
-                                    <Typography className="text-20 sm:text-20 truncate my-12">
+                                    <Typography className="text-20 sm:text-20 my-12">
                                         Upload PDF, DOC, DOCX, PNG, JPG
                                     </Typography>
                                 </div>
-                                <div className="flex justify-center sm:justify-start p-16">
+                                <div className="flex justify-center sm:justify-start flex-col sm:flex-row p-16">
                                     <TextField
-                                        className="mt-8 mb-16 mx-4"
+                                        className="mt-8 mb-16 mx-4 sm:w-2/5 w-full"
                                         id="docFormate"
                                         name="docFormate"
                                         select
@@ -241,7 +241,7 @@ export default class dropAndUploadDoc extends Component {
                                         variant="outlined"
                                         // fullWidth
                                         // size="medium"
-                                        style={{ width: "40%" }}
+                                        
                                     >
                                         <option disabled value="">{""}</option>
                                         {
@@ -257,7 +257,7 @@ export default class dropAndUploadDoc extends Component {
                                         }
                                     </TextField>
                                     <TextField
-                                        className="mt-8 mb-16 mx-4"
+                                        className="mt-8 mb-16 mx-4 sm:w-2/5 w-full "
                                         id="pageFormate"
                                         name="pageFormate"
                                         select
@@ -275,7 +275,7 @@ export default class dropAndUploadDoc extends Component {
                                         variant="outlined"
                                         // fullWidth
                                         // size="medium"
-                                        style={{ width: "40%" }}
+                                        
                                     >
                                         <option disabled value="">{""}</option>
                                         {
@@ -342,7 +342,7 @@ export default class dropAndUploadDoc extends Component {
                                 <div className="flex justify-center sm:justify-start p-16 " >
 
                                     <Typography className="description">
-                                        <b>*Note :Select PDF, DOC, DOCX, PNG or JPG to Upload</b>...
+                                        <b>Note :Select PDF, DOC, DOCX, PNG or JPG to Upload</b>...
                                     </Typography>
                                 </div>
 
@@ -352,7 +352,7 @@ export default class dropAndUploadDoc extends Component {
                                         this.state.files.length > 0
                                             ? <div className='files-list'>
                                                 <ul>{this.state.files.map((file) =>
-                                                    <li className='files-list-item' key={file.id}>
+                                                    <li className='files-list-item' style={{width: '300px'}} key={file.id}>
                                                         <div className='files-list-item-preview'>
                                                             {file.preview.type === 'image'
                                                                 ? <img className='files-list-item-preview-image' src={file.preview.url} />
@@ -373,7 +373,7 @@ export default class dropAndUploadDoc extends Component {
                                             : null
                                     }
                                 </div>
-                                <div className="pt-32">
+                                <div className="pt-32" style={{paddingLeft: '13rem'}}>
                                     {/* <FuseAnimate animation="transition.slideRightIn" delay={300} >
                                         <Button
                                             // type="submit"
@@ -390,6 +390,7 @@ export default class dropAndUploadDoc extends Component {
                                     </FuseAnimate> */}
                                     <FuseAnimate animation="transition.slideRightIn" delay={300}>
                                         <Button
+                                            style={{padding: '8px 40px'}}
                                             type="submit"
                                             className="whitespace-nowrap normal-case  mr-20"
                                             variant="contained"
@@ -405,7 +406,7 @@ export default class dropAndUploadDoc extends Component {
 
                             </div>
                         }
-                        innerScroll
+                        // innerScroll
                     />
                 </form>
                 <FooterLayout1 style={{}} />
