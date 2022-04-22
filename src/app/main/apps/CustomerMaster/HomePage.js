@@ -112,7 +112,7 @@ function HomePage() {
         } else {
             // The payment has been processed!
             if (result.paymentIntent.status === 'succeeded') {
-                alert("Payment Successfull");
+                alert("Your file(s) have been send for printing. You will receive a pickup confirmation shortly ");
                 setLoading(false)
                 localStorage.removeItem("order_id");
                 localStorage.removeItem("myData");

@@ -67,7 +67,7 @@ function LoginPage({ history }) {
         <FuseAnimate animation="transition.expandIn">
           <Card className="w-full max-w-384 rounded-8">
             <CardContent className="flex flex-col items-center justify-center p-32 mb-32">
-              <img className="w-128 m-32" style={{ width: "90%" }}
+            <img className="w-128 m-32" style={{ width: "90%" }}
                 src="assets/images/printing_logo.png"
                 alt="logo"
               />

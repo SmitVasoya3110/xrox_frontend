@@ -122,7 +122,7 @@ function CartHeader(props) {
 					color="secondary"
 				>
 					<span className="hidden sm:flex">AddOrder</span>
-					<span className="flex sm:hidden">ADD</span>
+					<span className="flex sm:hidden">AddOrder</span>
 				</Button>
 
 
