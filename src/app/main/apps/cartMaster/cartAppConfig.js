@@ -7,13 +7,9 @@ const CartAppConfigs = {
     },
     // auth: ["Admin"],
     routes: [
-        // {
-        //     path: "/apps/cartList",
-        //     component: React.lazy(() => import("./cart_List/cartList")),
-        // },
         {
-            path: "/apps/cartList1",
-            component: React.lazy(() => import("./cart_List1/cartList")),
+            path: "/apps/cartList",
+            component: React.lazy(() => import("./cart_List/cartList")),
         },
         // {
         //     path: "/apps/shiftAdd/:type_id",

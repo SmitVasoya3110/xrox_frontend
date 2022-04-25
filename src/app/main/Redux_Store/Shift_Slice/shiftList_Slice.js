@@ -20,7 +20,6 @@ export const getShiftLists = createAsyncThunk('ERP/ShiftList/getShiftList', asyn
 		obj
 	);
 	const data = await response.data.files;
-	console.log("Real DAta", data);
 	const temData = [];
 	const localData = JSON.parse(window.localStorage.getItem('temData')) || [];
 	console.log("localData", localData);

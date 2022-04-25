@@ -110,7 +110,7 @@ function CustomerPayment(props) {
             .then(res => {
                 if (!res.error) {
                     setLoading(false)
-                    alert("Your file(s) have been send for printing. You will receive a pickup confirmation shortly ");
+                    alert("Payment Successfull");
                     console.log("res", res.data);
                     // localStorage.setItem("order_id", res.data.order_id)
                     localStorage.removeItem("order_id");

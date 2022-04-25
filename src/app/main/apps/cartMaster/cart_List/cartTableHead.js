@@ -14,7 +14,7 @@ import MultiSelectMenu from './cartMenu';
 import ReactCustomeTable from './cartTable';
 import CartHeader from './cartHeader';
 
-import { getShiftLists, selectShiftList ,removeShift} from '../../../Redux_Store/Shift_Slice/shiftList_Slice'
+import { getShiftLists, selectShiftList } from '../../../Redux_Store/Shift_Slice/shiftList_Slice'
 import { updateShift } from '../../../Redux_Store/Shift_Slice/shiftAdd_Slice'
 import axios from 'axios';
 import Button from '@material-ui/core/Button';

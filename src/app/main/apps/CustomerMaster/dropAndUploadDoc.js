@@ -144,7 +144,7 @@ export default class dropAndUploadDoc extends Component {
 
                     // alert("File Upload successfully!");
                     // let backPath = "/apps/custometPayment";
-                    history.push("/apps/cartList1")
+                    history.push("/apps/cartList")
                 })
                 .catch((error) => {
                     // props.history.push(backPath)
@@ -373,7 +373,7 @@ export default class dropAndUploadDoc extends Component {
                                             : null
                                     }
                                 </div>
-                                <div className="pt-6" style={{paddingLeft: '13rem'}}>
+                                <div className="pt-32" style={{paddingLeft: '13rem'}}>
                                     {/* <FuseAnimate animation="transition.slideRightIn" delay={300} >
                                         <Button
                                             // type="submit"

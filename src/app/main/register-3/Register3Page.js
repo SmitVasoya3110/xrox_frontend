@@ -142,7 +142,7 @@ function Register3Page() {
 					>
 						<CardContent className="flex flex-col items-center justify-center w-full py-96 max-w-320">
 
-							<img className="w-128 m-32" style={{ width: "70%" }} src="assets/images/printing_logo.png" alt="logo" />
+							<img className="w-128 m-32" style={{ width: "90%" }} src="assets/images/printing_logo.png" alt="logo" />
 
 							<Formsy
 								onValid={enableButton}

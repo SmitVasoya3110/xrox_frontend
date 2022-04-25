@@ -196,7 +196,6 @@ function CustomerPayment(props) {
                                             className={classes.media}
                                             image="assets/images/printing_logo.png"
                                             title="Contemplative Reptile"
-                                            // style={{width:'100%', height:'50%'}}
                                         />
                                         <CardContent>
                                             {/* <Typography gutterBottom variant="h5" component="h2">
