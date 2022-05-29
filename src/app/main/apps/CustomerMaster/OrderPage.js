@@ -25,10 +25,10 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 
-import GooglePayButton from "@google-pay/button-react"
+// import GooglePayButton from "@google-pay/button-react"
 // import StripeCheckout from 'react-stripe-checkout';
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
+// import { Elements } from '@stripe/react-stripe-js';
+// import { loadStripe } from '@stripe/stripe-js';
 import HomePage from "./HomePage";
 
 import history from "@history";
@@ -45,7 +45,7 @@ const useStyles = makeStyles({
 });
 
 // the key is located in the .env file
-const stripePromise = loadStripe("pk_live_51KNpBmDiddQAhMW0KFEt4brL1aT9RrcKtj8wPeCiyE3UlWXBIna6jRIDCbh1ELxsM8CyStT9c9TTwu3u1H3fWa2500z2hWgEPm");
+// const stripePromise = loadStripe("pk_live_51KNpBmDiddQAhMW0KFEt4brL1aT9RrcKtj8wPeCiyE3UlWXBIna6jRIDCbh1ELxsM8CyStT9c9TTwu3u1H3fWa2500z2hWgEPm");
 // const stripePromise = loadStripe("pk_test_51KNpBmDiddQAhMW0Lzmb8Gbd8oIVJtbBQxqf73mYItt5rSbxhMeZ3X36qXQAZGxPlfX9QvnO9OJASoJyXy4tCHxq00dNLc3nH0");
 
 let shouldSucceed = false;
@@ -100,7 +100,7 @@ function CustomerPayment(props) {
             email: userData.user.data.email,
             order_id: order_id,
             displayName: userData.user.data.displayName,
-            timestamp:timestamp
+            timestamp: timestamp
 
 
         }
@@ -117,7 +117,7 @@ function CustomerPayment(props) {
                     localStorage.removeItem("myData");
                     localStorage.removeItem("temData");
                     localStorage.removeItem("timestamp");
-                    localStorage.setItem("timeStemp",Math.floor(Date.now() /1000))
+                    localStorage.setItem("timeStemp", Math.floor(Date.now() / 1000))
 
 
                     history.push("/apps/dropAndUpload/new");
@@ -247,85 +247,23 @@ function CustomerPayment(props) {
                                             </TableCell>
                                         </TableRow>
                                     </TableBody> */}
-                                    
+
                                 </Table>
                             </TableContainer>
 
                             <div className="pt-16 mb-3">
 
-                                <GooglePayButton
-                                    environment="TEST"
-                                    paymentRequest={{
-                                        apiVersion: 2,
-                                        apiVersionMinor: 0,
-                                        allowedPaymentMethods: [
-                                            {
-                                                type: 'CARD',
-                                                parameters: {
-                                                    allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-                                                    allowedCardNetworks: ['MASTERCARD', 'VISA'],
-                                                },
-                                                tokenizationSpecification: {
-                                                    type: 'PAYMENT_GATEWAY',
-                                                    parameters: {
-                                                        gateway: 'example',
-                                                        gatewayMerchantId: 'exampleGatewayMerchantId',
-                                                    },
-                                                },
-                                            },
-                                        ],
-                                        merchantInfo: {
-                                            merchantId: '12345678901234567890',
-                                            merchantName: 'Demo Merchant',
-                                        },
-                                        transactionInfo: {
-                                            totalPriceStatus: 'FINAL',
-                                            totalPriceLabel: 'Total',
-                                            totalPrice: tc,
-                                            currencyCode: 'AUD',
-                                            countryCode: 'AU',
-                                        },
-                                        shippingAddressRequired: true,
-                                        callbackIntents: ['SHIPPING_ADDRESS', 'PAYMENT_AUTHORIZATION'],
-                                    }}
-                                    onLoadPaymentData={paymentRequest => {
-                                        console.log('Success', paymentRequest);
-                                    }}
-                                    onPaymentAuthorized={async () => {
-                                        if (await hasSufficientFunds()) {
-                                            return handleSuccess()
-                                        } else {
-                                            return {
-                                                transactionState: 'ERROR',
-                                                error: {
-                                                    reason: "PAYMENT_DATA_INVALID",
-                                                    message: "Insufficient funds (shouldSucceed is false), click Pay again.",
-                                                    intent: "PAYMENT_AUTHORIZATION"
-                                                }
-                                            };
-                                        }
-                                    }}
-                                    onPaymentDataChanged={paymentData => {
-                                        console.log('On Payment Data Changed', paymentData)
-                                        return {}
-                                    }
-                                    }
-                                    existingPaymentMethodRequired='false'
-                                    buttonColor='black'
-                                    buttonType='pay'
-                                />
+
                                 {loading && (
-                                    
-                                        <CircularProgress style={{marginLeft:"2em"}} />
-                                    
+                                    <CircularProgress style={{ marginLeft: "2em" }} />
                                 )
                                 }
                             </div>
                             <h3 className="pt-16 mb-3 ml-3"><b>PAY WITH CARD</b></h3>
                             <div className="mb-60">
-                                <Elements stripe={stripePromise}>
-                                    <HomePage />
-                                </Elements>
+                                {/* <Elements stripe={stripePromise}> */}
+                                <HomePage />
+                                {/* </Elements> */}
                             </div>
                         </div>
 
