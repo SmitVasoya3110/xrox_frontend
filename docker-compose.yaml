@@ -6,9 +6,7 @@ services:
     container_name: xplotur_b2c
     stdin_open: true
     tty: true
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: smitpatel3110/xrox_front
     volumes:
       - '.:/app'
       - '/app/node_modules'
