@@ -142,18 +142,16 @@ function HomePage() {
 
     const handleSubmitPay = async (token) => {
         await axios
-            .post(`http://192.168.0.128:8000/pay`, { ...tempData, token: token })
+            .post(`${process.env.REACT_APP_BACKEND_URL}/pay`, { ...tempData, token: token })
             .then(res => {
                 if (!res.error) {
-                    alert("Payment Successfull");
-                    // console.log("res", res.data['client_secret']);
-                    // clientSecret = res.data['client_secret']
-                    // localStorage.setItem("order_id", res.data.order_id)
-                    // localStorage.removeItem("order_id");
-                    // localStorage.removeItem("myData");
-
-
-                    // history.push("/apps/dropAndUpload");
+                    alert("Payment Successful");
+                    console.log("res", res.data['client_secret']);
+                    clientSecret = res.data['client_secret']
+                    localStorage.setItem("order_id", res.data.order_id)
+                    localStorage.removeItem("order_id");
+                    localStorage.removeItem("myData");
+                    history.push("/apps/dropAndUpload");
                 }
             })
             .catch(error => {
