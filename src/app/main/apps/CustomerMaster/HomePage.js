@@ -24,9 +24,10 @@ let square_location_id = "L5KKFMZJPVWBY"
 
 let NODE_ENV = process.env.NODE_ENV;
 // NODE_ENV= "production"
+NODE_ENV= "development"
 square_application_id = NODE_ENV.toString().toLocaleLowerCase() === "development" ? process.env.REACT_APP_APPLICATION_ID_DEV : REACT_APP_APPLICATION_ID_LIVE
 square_location_id = NODE_ENV.toString().toLocaleLowerCase() === "development" ? process.env.REACT_APP_LOCATION_ID_DEV : REACT_APP_LOCATION_ID_LIVE
-
+console.log(NODE_ENV);
 const useStyles = makeStyles({
     root: {
         maxWidth: 500,
