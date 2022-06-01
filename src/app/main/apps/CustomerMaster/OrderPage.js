@@ -173,7 +173,7 @@ function CustomerPayment(props) {
                         </div>
                     }
                     content={
-                        <div className="p-16 my-20">
+                        <div className="p-2 sm:p-16 my-20">
                             <div className="flex items-center">
                                 <FuseAnimate animation="transition.expandIn">
                                     <Icon className="text-32">attach_file</Icon>
@@ -188,20 +188,20 @@ function CustomerPayment(props) {
                                 <Table aria-label="custom table">
                                     <TableBody>
                                         <TableRow>
-                                            <TableCell component="th" className="whitespace-nowrap" scope="row">
+                                            <TableCell component="th" className="whitespace-nowrap p-8 sm:p-16" scope="row">
                                                 {"Order ID"}
                                             </TableCell>
-                                            <TableCell style={{ width: 160 }} align="left">
+                                            <TableCell align="left" className="p-8 sm:p-16">
                                                 {localStorage.getItem("order_id")}
                                             </TableCell>
                                         </TableRow>
                                     </TableBody>
                                     <TableBody>
                                         <TableRow>
-                                            <TableCell component="th" className="whitespace-nowrap" scope="row">
+                                            <TableCell component="th" className="whitespace-nowrap p-8 sm:p-16" scope="row">
                                                 {"User Name"}
                                             </TableCell>
-                                            <TableCell style={{ width: 160 }} align="left">
+                                            <TableCell align="left" className="p-8 sm:p-16">
                                                 {userData.user.data.displayName}
                                             </TableCell>
                                         </TableRow>
@@ -209,20 +209,22 @@ function CustomerPayment(props) {
 
                                     <TableBody>
                                         <TableRow>
-                                            <TableCell component="th" className="whitespace-nowrap" scope="row">
+                                            <TableCell component="th" className="whitespace-nowrap p-8 sm:p-16" scope="row">
                                                 {"User Email"}
                                             </TableCell>
-                                            <TableCell style={{ width: 160 }} align="left">
+                                            <TableCell align="left" className="p-8 sm:p-16">
                                                 {userData.user.data.email}
                                             </TableCell>
                                         </TableRow>
                                     </TableBody>
                                     <TableBody>
                                         <TableRow>
-                                            <TableCell component="th" className="whitespace-nowrap" scope="row">
+                                            <TableCell component="th"
+                                                className="whitespace-nowrap p-8 sm:p-16"
+                                                scope="row">
                                                 {"Total Cost"}
                                             </TableCell>
-                                            <TableCell style={{ width: 160 }} align="left">
+                                            <TableCell align="left" className="p-8 sm:p-16">
                                                 ${data.Total_Cost}
                                             </TableCell>
                                         </TableRow>
@@ -259,7 +261,7 @@ function CustomerPayment(props) {
                                 )
                                 }
                             </div>
-                            <h3 className="pt-16 mb-3 ml-3"><b>PAY WITH CARD</b></h3>
+                            <h3 className="pt-16 mb-3 ml-16"><b>PAY WITH CARD</b></h3>
                             <div className="mb-60">
                                 {/* <Elements stripe={stripePromise}> */}
                                 <HomePage />

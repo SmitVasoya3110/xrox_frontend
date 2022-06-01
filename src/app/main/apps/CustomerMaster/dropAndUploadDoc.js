@@ -352,7 +352,7 @@ export default class dropAndUploadDoc extends Component {
                                         this.state.files.length > 0
                                             ? <div className='files-list'>
                                                 <ul>{this.state.files.map((file) =>
-                                                    <li className='files-list-item' style={{width: '300px'}} key={file.id}>
+                                                    <li className='files-list-item' key={file.id}>
                                                         <div className='files-list-item-preview'>
                                                             {file.preview.type === 'image'
                                                                 ? <img className='files-list-item-preview-image' src={file.preview.url} />

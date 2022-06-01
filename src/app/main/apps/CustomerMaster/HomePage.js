@@ -15,7 +15,7 @@ import FuseLoading from "@fuse/core/FuseLoading";
 
 import "./style1.css"
 import history from "@history";
-import { Box, CircularProgress } from '@material-ui/core';
+import { Box, CircularProgress, Paper } from '@material-ui/core';
 import { CreditCard, PaymentForm } from 'react-square-web-payments-sdk';
 
 // smit  test
@@ -24,7 +24,7 @@ let square_location_id = "L5KKFMZJPVWBY"
 
 let NODE_ENV = process.env.NODE_ENV;
 // NODE_ENV= "production"
-NODE_ENV= "development"
+NODE_ENV = "development"
 square_application_id = NODE_ENV.toString().toLocaleLowerCase() === "development" ? process.env.REACT_APP_APPLICATION_ID_DEV : REACT_APP_APPLICATION_ID_LIVE
 square_location_id = NODE_ENV.toString().toLocaleLowerCase() === "development" ? process.env.REACT_APP_LOCATION_ID_DEV : REACT_APP_LOCATION_ID_LIVE
 console.log(NODE_ENV);
@@ -163,49 +163,50 @@ function HomePage() {
 
 
     return (
-        <Card className={classes.root}>
-            <CardContent className={classes.content}>
-                <TextField
-                    label='Email'
-                    id='outlined-email-input'
-                    helperText={`Email you'll recive updates and receipts on`}
-                    margin='normal'
-                    variant='outlined'
-                    type='email'
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    fullWidth
-                />
-                {/* <CardInput /> */}
+        <Paper className="border w-full sm:w-1/2">
+            <Card>
+                <CardContent className={classes.content}>
+                    <TextField
+                        label='Email'
+                        id='outlined-email-input'
+                        helperText={`Email you'll recive updates and receipts on`}
+                        margin='normal'
+                        variant='outlined'
+                        type='email'
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        fullWidth
+                    />
+                    {/* <CardInput /> */}
 
-                <PaymentForm
-                    applicationId={square_application_id}
-                    locationId={square_location_id}
-                    cardTokenizeResponseReceived={async (token, buyer) => {
-                        console.log("token", token);
-                        console.log("buyer", buyer);
+                    <PaymentForm
+                        applicationId={square_application_id}
+                        locationId={square_location_id}
+                        cardTokenizeResponseReceived={async (token, buyer) => {
+                            console.log("token", token);
+                            console.log("buyer", buyer);
 
-                        const response = await handleSubmitPay(token.token)
-                        console.log("response", response);
-                        // const response = await fetch("/api/pay", {
-                        //     method: "POST",
-                        //     headers: {
-                        //         "Content-type": "application/json"
-                        //     },
-                        //     body: JSON.stringify({
-                        //         sourceId: token.token,
-                        //         amount: 200
-                        //     })
-                        // })
-                        // alert(JSON.stringify(await response.json(), null,))
-                    }}
+                            const response = await handleSubmitPay(token.token)
+                            console.log("response", response);
+                            // const response = await fetch("/api/pay", {
+                            //     method: "POST",
+                            //     headers: {
+                            //         "Content-type": "application/json"
+                            //     },
+                            //     body: JSON.stringify({
+                            //         sourceId: token.token,
+                            //         amount: 200
+                            //     })
+                            // })
+                            // alert(JSON.stringify(await response.json(), null,))
+                        }}
 
-                >
-                    <CreditCard />
-                </PaymentForm>
-                <div className={classes.div}>
-                    {/* <Button
+                    >
+                        <CreditCard />
+                    </PaymentForm>
+                    <div className={classes.div}>
+                        {/* <Button
                         variant="contained"
                         color="primary"
                         className={classes.button}
@@ -213,18 +214,19 @@ function HomePage() {
                     >
                         Pay
                     </Button> */}
-                    {loading && (
-                        <div className={classes.button}>
-                            <Box sx={{ display: 'flex' }}>
-                                <CircularProgress />
-                            </Box>
-                        </div>
-                    )
-                    }
-                </div>
+                        {loading && (
+                            <div className={classes.button}>
+                                <Box sx={{ display: 'flex' }}>
+                                    <CircularProgress />
+                                </Box>
+                            </div>
+                        )
+                        }
+                    </div>
 
-            </CardContent>
-        </Card>
+                </CardContent>
+            </Card>
+        </Paper>
     );
 }
 
