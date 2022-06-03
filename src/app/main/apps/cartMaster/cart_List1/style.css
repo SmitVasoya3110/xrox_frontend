@@ -1,0 +1,9 @@
+.cardList {
+  width: 300px;
+}
+
+@media only screen and (max-width: 320px) {
+  .cardList {
+    width: 270px;
+  }
+}

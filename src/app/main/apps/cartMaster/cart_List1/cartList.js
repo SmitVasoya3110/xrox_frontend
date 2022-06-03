@@ -13,15 +13,12 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import withReducer from "app/store/withReducer";
 import TextField from "@material-ui/core/TextField";
-//  validation fomsy
-import { TextFieldFormsy } from "@fuse/core/formsy";
-import Formsy from "formsy-react";
-//
 // card
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+import "./style.css"
 
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
@@ -43,79 +40,24 @@ import {
 import reducer from "../../../Redux_Store/index";
 import axios from "axios";
 import history from "@history";
-// import {
-//   newMachine,
-//   resetMachine,
-//   getMachine,
-//   saveMachine,
-//   updateMachine,
-// } from "../../../Redux_Store/Machine_Slice/machineAdd_Slice";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-// const useStyles = makeStyles((theme) => ({
-//   productImageFeaturedStar: {
-//     position: "absolute",
-//     top: 0,
-//     right: 0,
-//     color: orange[400],
-//     opacity: 0,
-//   },
-//   productImageUpload: {
-//     transitionProperty: "box-shadow",
-//     transitionDuration: theme.transitions.duration.short,
-//     transitionTimingFunction: theme.transitions.easing.easeInOut,
-//   },
-//   productImageItem: {
-//     transitionProperty: "box-shadow",
-//     transitionDuration: theme.transitions.duration.short,
-//     transitionTimingFunction: theme.transitions.easing.easeInOut,
-//     "&:hover": {
-//       "& $productImageFeaturedStar": {
-//         opacity: 0.8,
-//       },
-//     },
-//     "&.featured": {
-//       pointerEvents: "none",
-//       boxShadow: theme.shadows[3],
-//       "& $productImageFeaturedStar": {
-//         opacity: 1,
-//       },
-//       "&:hover $productImageFeaturedStar": {
-//         opacity: 1,
-//       },
-//     },
-//   },
-// }));
 
 function CartList1(props) {
-  // window.location.reload();
   const dispatch = useDispatch();
-  // const Shift = useSelector(({ ERP }) => ERP.Shift);
-  // console.log("Shift", Shift);
   const theme = useTheme();
-  // const classes = useStyles(props);
-  // const routeParams = useParams();
-
   const formRef = useRef(null); //validation
   let backPath = "/apps/dropAndUpload/new";
 
   const Entries = useSelector(selectShiftList) || [];
-
-  console.log("New Entries", Entries);
-  // const frmFilterData = useSelector(({ ERP }) => ERP.ShiftList.frmFilterData);
-  // console.log("frmFilterData", frmFilterData);
-
   const [data, setData] = useState(Entries);
-  console.log("New data", data);
 
   const [loading, setLoading] = useState(true);
   const timestamp = localStorage.getItem("timeStemp");
   const current_user = JSON.parse(localStorage.getItem("current_user"));
   const user_id = current_user.user.uuid
-
-  // const [num, setNum] = useState(0);
 
   useDeepCompareEffect(() => {
     dispatch(
@@ -123,7 +65,6 @@ function CartList1(props) {
     )
       .then(() => {
         setLoading(false)
-        // window.location.reload();
       })
       .catch(() => setData([]));
   }, [dispatch, timestamp]);
@@ -134,67 +75,64 @@ function CartList1(props) {
     setData(tData);
   }, [Entries]);
 
-  const uploadShift = async()=>{
-		// const uploadObject = Entries.map(rowData => rowData.server_file_name);
-		const localData = JSON.parse(window.localStorage.getItem('temData')) || [];
-		const temData = [];
-		localData.forEach((element) => {
-			let dic = {
-				file:element.server_file_name,
-				quantity: element.qty
-			}
-			temData.push(dic)
-		});
-		console.log("heloooooooooooooooooo", temData)
-		const obj = {
-			"user_id":user_id,
-			"timestamp":timestamp,
-			"files":temData
-		}
-		console.log("heloooooooooooooooooo oBJJJ", obj)
-		let myData = {};
-		await axios
-			.post(`${process.env.REACT_APP_BACKEND_URL}/calcuate-final-cart`, obj)
-			// .post(`http://172.105.56.110:8000/upload-to-cart`, fileData)
-			.then((res) => {
-				// setFileData(null);
-				console.log("ressssssssssss:", res);
-				console.log("Total Cost ::", res.data.Total_Cost)
-				// myData["Total_Pages"] = res.data.numbers.Total_Pages
-				myData["Total_Cost"] = res.data.Total_Cost
-				myData["numbers"] = temData
-				// myData["fileNames"] = fileNames
-				// myData["docFormat"] = this.state.docFormat
-				// myData["pageFormat"] = this.state.pageFormat
+  const uploadShift = async () => {
+    const localData = JSON.parse(window.localStorage.getItem('temData')) || [];
+    const temData = [];
+    localData.forEach((element) => {
+      let dic = {
+        file: element.server_file_name,
+        quantity: element.qty
+      }
+      temData.push(dic)
+    });
+    const obj = {
+      "user_id": user_id,
+      "timestamp": timestamp,
+      "files": temData
+    }
+    let myData = {};
+    await axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/calcuate-final-cart`, obj)
+      // .post(`http://172.105.56.110:8000/upload-to-cart`, fileData)
+      .then((res) => {
+        // setFileData(null);
+        console.log("ressssssssssss:", res);
+        console.log("Total Cost ::", res.data.Total_Cost)
+        // myData["Total_Pages"] = res.data.numbers.Total_Pages
+        myData["Total_Cost"] = res.data.Total_Cost
+        myData["numbers"] = temData
+        // myData["fileNames"] = fileNames
+        // myData["docFormat"] = this.state.docFormat
+        // myData["pageFormat"] = this.state.pageFormat
 
-				console.log("mydataaaa", myData)
-				// // this.state.total_price=res.data.numbers.Total_Cost
-				// this.setState({
-				//     total_price: res.data.numbers.Total_Cost
-				// }, () => {
-				//     console.log(this.state)
-				// })
-				localStorage.setItem('myData', JSON.stringify(myData));
-				// // localStorage.setItem('files', JSON.stringify(myData));
-				// // setErr([]);
-				// this.setState({ loading: false });
+        console.log("mydataaaa", myData)
+        // // this.state.total_price=res.data.numbers.Total_Cost
+        // this.setState({
+        //     total_price: res.data.numbers.Total_Cost
+        // }, () => {
+        //     console.log(this.state)
+        // })
+        localStorage.setItem('myData', JSON.stringify(myData));
+        // // localStorage.setItem('files', JSON.stringify(myData));
+        // // setErr([]);
+        // this.setState({ loading: false });
 
-				alert("Order Placed successfully!");
-				// let backPath = "/apps/custometPayment";
-				// history.push("/apps/cartList")
-				history.push("/apps/custometPayment")
-			})
-			.catch((error) => {
-				// props.history.push(backPath)
-				console.log("ERRRRRRRRRRRRRR:", error);
-				// setFileData(null);
-				
+        alert("Order Placed successfully!");
+        // let backPath = "/apps/custometPayment";
+        // history.push("/apps/cartList")
+        history.push("/apps/custometPayment")
+      })
+      .catch((error) => {
+        // props.history.push(backPath)
+        console.log("ERRRRRRRRRRRRRR:", error);
+        // setFileData(null);
 
-				alert("File Is Not Valid!");
 
-				// setErr(error.response.data.message);
-			});
-	}
+        alert("File Is Not Valid!");
+
+        // setErr(error.response.data.message);
+      });
+  }
 
 
   const handleChange1 = async (e, row) => {
@@ -376,65 +314,62 @@ function CartList1(props) {
                 // closeSelectedMenu();
               }}
             >
-             Check Out
+              Check Out
             </Button>
           </FuseAnimate>
         </div>
       }
       content={
-        <div className="p-16 sm:p-24 max-w-2xl">
+        <div className="sm:p-16 px-4 sm:p-24 max-w-2xl">
           {/* {tabValue === 0 && ( */}
           <div>
-            <div className="pt-32 pl-24 flex flex-1 justify-center sm:justify-start p-16">
+            <div className="pt-32 flex flex-1 justify-center sm:justify-start sm:px-16 px-4">
               {data.length > 0 ? (
-                <div >
-                  <ul className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    {data.map((file, index) => (
-                      <li
-                        // className="files-list-item"
-                        style={{ width: "300px" }}
-                        key={index}
-                      >
-                        <Card className="m-10">
-                          <CardActionArea>
-                            <CardContent>
-                              <Typography className="h3 font-bold mb-10">
-                                {file.filename}
-                              </Typography>
-                              <Typography className="mb-5 text-slate-500">
-                                Page Type: <span className="text-black">{file.page_format}</span>
-                              </Typography>
-                              <Typography className="mb-5">
-                                Document Type: <span className="text-black">{file.size}</span>
-                              </Typography>
-                              <Typography className="mb-5">Color Type: <span className="text-black">{file.type}</span></Typography>
-                            </CardContent>
-                          </CardActionArea>
-                          <CardActions className="flex justify-center">
-                            <Button onClick={() => IncNum(file)}>
-                              <AddIcon />
-                            </Button>
+                <ul className="grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 gap-10">
+                  {data.map((file, index) => (
+                    <li
+                      className="cardList"
+                      key={index}
+                    >
+                      <Card className="m-10">
+                        <CardActionArea>
+                          <CardContent className="sm:p-16 p-8">
+                            <Typography className="h3 font-bold mb-10 sm:text-base text-sm">
+                              {file.filename}
+                            </Typography>
+                            <Typography className="mb-5 text-slate-500">
+                              Page Type: <span className="text-black">{file.page_format}</span>
+                            </Typography>
+                            <Typography className="mb-5">
+                              Document Type: <span className="text-black">{file.size}</span>
+                            </Typography>
+                            <Typography className="mb-5">Color Type: <span className="text-black">{file.type}</span></Typography>
+                          </CardContent>
+                        </CardActionArea>
+                        <CardActions className="flex justify-center">
+                          <Button onClick={() => IncNum(file)}>
+                            <AddIcon />
+                          </Button>
 
-                            <TextField
-                              style={{ width: "20%" }}
-                              type="number"
-                              value={file.qty}
-                            />
+                          <TextField
+                            style={{ width: "20%" }}
+                            type="number"
+                            value={file.qty}
+                          />
 
-                            <Button onClick={() => DecNum(file)}>
-                              <RemoveIcon />
-                            </Button>
-                          </CardActions>
-                          <CardActions className="flex justify-center">
-                            <Button onClick={() => removeHandle(file)} color="secondary" variant="contained">
-                              Remove
-                            </Button>
-                          </CardActions>
-                        </Card>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                          <Button onClick={() => DecNum(file)}>
+                            <RemoveIcon />
+                          </Button>
+                        </CardActions>
+                        <CardActions className="flex justify-center">
+                          <Button onClick={() => removeHandle(file)} color="secondary" variant="contained">
+                            Remove
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </li>
+                  ))}
+                </ul>
               ) : <div>
                 <h1>No data Found</h1>
               </div>}
