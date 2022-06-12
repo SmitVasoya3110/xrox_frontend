@@ -142,20 +142,28 @@ function HomePage() {
     // };
 
     const handleSubmitPay = async (token) => {
+        setLoading(true)
         await axios
             .post(`${process.env.REACT_APP_BACKEND_URL}/pay`, { ...tempData, token: token })
             .then(res => {
                 if (!res.error) {
-                    alert("Payment Successful");
-                    console.log("res", res.data['client_secret']);
-                    clientSecret = res.data['client_secret']
-                    localStorage.setItem("order_id", res.data.order_id)
-                    localStorage.removeItem("order_id");
-                    localStorage.removeItem("myData");
-                    history.push("/apps/dropAndUpload");
+                    // console.log("res ==>", res);
+                    // console.log("res ==>", res.data.payment);
+                    if (res?.data?.payment?.status === "COMPLETED") {
+                        alert("Your file(s) have been send for printing. You will receive a pickup confirmation shortly");
+                        localStorage.removeItem("order_id");
+                        localStorage.removeItem("myData");
+                        localStorage.removeItem("temData");
+                        localStorage.removeItem("timestamp");
+                        localStorage.setItem("timeStemp", Math.floor(Date.now() / 1000))
+                        history.push("/apps/dropAndUpload/new");
+                    }
+                    setLoading(false)
+
                 }
             })
             .catch(error => {
+                setLoading(false)
                 console.log("err", error)
                 console.log("Error While Generate Order");
             })
@@ -166,6 +174,13 @@ function HomePage() {
         <Paper className="border w-full sm:w-1/2">
             <Card>
                 <CardContent className={classes.content}>
+                    {loading && (
+                        <div className={classes.button}>
+                            <Box sx={{ display: 'flex' }}>
+                                <CircularProgress />
+                            </Box>
+                        </div>
+                    )}
                     <TextField
                         label='Email'
                         id='outlined-email-input'
@@ -184,8 +199,8 @@ function HomePage() {
                         applicationId={square_application_id}
                         locationId={square_location_id}
                         cardTokenizeResponseReceived={async (token, buyer) => {
-                            console.log("token", token);
-                            console.log("buyer", buyer);
+                            // console.log("token", token);
+                            // console.log("buyer", buyer);
 
                             const response = await handleSubmitPay(token.token)
                             console.log("response", response);
@@ -214,14 +229,7 @@ function HomePage() {
                     >
                         Pay
                     </Button> */}
-                        {loading && (
-                            <div className={classes.button}>
-                                <Box sx={{ display: 'flex' }}>
-                                    <CircularProgress />
-                                </Box>
-                            </div>
-                        )
-                        }
+
                     </div>
 
                 </CardContent>
