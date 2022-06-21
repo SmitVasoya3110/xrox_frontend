@@ -71,7 +71,6 @@ function CartList1(props) {
 
   useEffect(() => {
     const tData = JSON.parse(window.localStorage.getItem("temData"));
-    console.log("tData", tData);
     setData(tData);
   }, [Entries]);
 
@@ -96,8 +95,6 @@ function CartList1(props) {
       // .post(`http://172.105.56.110:8000/upload-to-cart`, fileData)
       .then((res) => {
         // setFileData(null);
-        console.log("ressssssssssss:", res);
-        console.log("Total Cost ::", res.data.Total_Cost)
         // myData["Total_Pages"] = res.data.numbers.Total_Pages
         myData["Total_Cost"] = res.data.Total_Cost
         myData["numbers"] = temData
@@ -105,7 +102,6 @@ function CartList1(props) {
         // myData["docFormat"] = this.state.docFormat
         // myData["pageFormat"] = this.state.pageFormat
 
-        console.log("mydataaaa", myData)
         // // this.state.total_price=res.data.numbers.Total_Cost
         // this.setState({
         //     total_price: res.data.numbers.Total_Cost
@@ -137,11 +133,8 @@ function CartList1(props) {
 
   const handleChange1 = async (e, row) => {
     e.target.value < 0 ? (e.target.value = 0) : e.target.value;
-    console.log("EE value ", e.target.value);
-    console.log("row", row);
     // setNum(e.target.value);
     const tData = JSON.parse(window.localStorage.getItem("temData"));
-    console.log("tData  ", tData);
     let t = [];
     await tData.forEach((el) => {
       if (el.server_file_name === row.server_file_name) {
@@ -157,16 +150,13 @@ function CartList1(props) {
   };
 
   const removeHandle = async (row) => {
-    // console.log("remove data ", row.server_file_name);
     let temp = [];
     let myData1 = {};
     temp.push(row.server_file_name)
-    console.log("remove data array ", temp);
     myData1["timestamp"] = timestamp
     myData1["user_id"] = current_user.user.uuid
     myData1["files[]"] = temp
     // setCount(count + 1);
-    console.log("remove my data ", myData1);
     if (window.confirm("Are You Sure?")) {
       dispatch(removeShift(myData1))
     }
@@ -174,10 +164,8 @@ function CartList1(props) {
   };
 
   const IncNum = async (row) => {
-    console.log("IncNum ", row);
     // setCount(count + 1);
     const tData = JSON.parse(window.localStorage.getItem("temData"));
-    console.log("tData  ", tData);
     let t = [];
     await tData.forEach((el) => {
       if (el.server_file_name === row.server_file_name) {
@@ -192,10 +180,8 @@ function CartList1(props) {
     window.localStorage.setItem("temData", JSON.stringify(t));
   };
   const DecNum = async (row) => {
-    console.log("DecNum ", row);
     if (parseInt(row.qty) > 0) {
       const tData = JSON.parse(window.localStorage.getItem("temData"));
-      console.log("tData  ", tData);
       let t = [];
       await tData.forEach((el) => {
         if (el.server_file_name === row.server_file_name) {
@@ -210,7 +196,6 @@ function CartList1(props) {
       window.localStorage.setItem("temData", JSON.stringify(t));
     } else {
       const tData = JSON.parse(window.localStorage.getItem("temData"));
-      console.log("tData  ", tData);
       let t = [];
       await tData.forEach((el) => {
         if (el.server_file_name === row.server_file_name) {
@@ -228,7 +213,6 @@ function CartList1(props) {
   };
 
   const onQtyChange = (row, value) => {
-    console.log("row, value",row, value);
     const tData = JSON.parse(window.localStorage.getItem("temData"));
     let tempData = [];
     tData.forEach((el) => {
@@ -269,7 +253,6 @@ function CartList1(props) {
   if (loading) {
     return <FuseLoading />;
   }
-  console.log("data", data);
   if (data?.length === 0 || !data) {
     return (
       <div className="flex flex-1 items-center justify-center h-full">
