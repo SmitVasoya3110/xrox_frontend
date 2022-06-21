@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button";
 import { orange } from "@material-ui/core/colors";
 import Icon from "@material-ui/core/Icon";
 // import InputAdornment from "@material-ui/core/InputAdornment";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles, ThemeProvider, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import withReducer from "app/store/withReducer";
 import TextField from "@material-ui/core/TextField";
@@ -226,6 +226,27 @@ function CartList1(props) {
       alert("min limit reached");
     }
   };
+
+  const onQtyChange = (row, value) => {
+    console.log("row, value",row, value);
+    const tData = JSON.parse(window.localStorage.getItem("temData"));
+    let tempData = [];
+    tData.forEach((el) => {
+      if (el.server_file_name === row.server_file_name) {
+        let temp = el;
+        if (value <= 0) {
+          temp.qty = parseInt(0);
+        } else {
+          temp.qty = parseInt(value);
+        }
+        tempData.push(temp);
+      } else {
+        tempData.push(el);
+      }
+    });
+    setData(tempData);
+    window.localStorage.setItem("temData", JSON.stringify(tempData));
+  }
   // const [row, setRow] = useState({})
   // const handleActiveStatus = (temp) => {
   // 	console.log("TEMPPPPP ::", temp)
@@ -355,6 +376,7 @@ function CartList1(props) {
                             style={{ width: "20%" }}
                             type="number"
                             value={file.qty}
+                            onChange={(e) => onQtyChange(file, e.target.value)}
                           />
 
                           <Button onClick={() => DecNum(file)}>
