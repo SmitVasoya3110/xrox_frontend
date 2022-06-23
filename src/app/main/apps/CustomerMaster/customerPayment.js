@@ -1,14 +1,8 @@
 import FuseAnimate from "@fuse/core/FuseAnimate";
-// import FuseChipSelect from "@fuse/core/FuseChipSelect";
-// import FuseLoading from "@fuse/core/FuseLoading";
 import FusePageCarded from "@fuse/core/FusePageCarded";
-// import { useForm, useDeepCompareEffect } from "@fuse/hooks";
-// import FuseUtils from "@fuse/utils";
-// import _ from "@lodash";
 import Button from "@material-ui/core/Button";
 import { orange } from "@material-ui/core/colors";
 import Icon from "@material-ui/core/Icon";
-// import InputAdornment from "@material-ui/core/InputAdornment";
 import TextField from '@material-ui/core/TextField';
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -26,10 +20,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
-// import reducer from "../../Redux_store/index";
 import Alert from "@material-ui/lab/Alert";
 import { set } from "date-fns";
-import GooglePayButton from "@google-pay/button-react"
 import history from "@history";
 import pdfFile from "./Printing7.pdf"
 
@@ -66,15 +58,11 @@ function CustomerPayment(props) {
     }
     const data = JSON.parse(localStorage.getItem('myData'))
     const tp = data.numbers
-    console.log("tppppppp",tp)
     const tc = data.Total_Cost.toString()
     const userData = JSON.parse(localStorage.getItem('current_user'))
-    // console.log("userData", userData.user)
-    // console.log("data", userData.user.data.displayName)
     data["displayName"] = userData.user.data.displayName
     data["email"] = userData.user.data.email
 
-    console.log("data", data)
     const [docFormat, setDocFormat] = useState("")
 
     // const [fileData, setFileData] = useState(null);
@@ -93,14 +81,7 @@ function CustomerPayment(props) {
         setAgree(!agree);
         // Don't miss the exclamation mark
     }
-    // function handleSuccess(transactionState) {
-    //     console.log("mydataaa:", data)
-    //     console.log("transactionState", transactionState);
-    //     // console.log("SUCCESS",SUCCESS)
-
-    //     return { transactionState: 'SUCCESS' }
-
-    // }
+   
 
     const functionCreateOrder = async (event) => {
         event.preventDefault();
@@ -170,15 +151,6 @@ function CustomerPayment(props) {
                     }
                     content={
                         <div className="p-16 my-20">
-                            {/* <div className="flex items-center">
-                                <FuseAnimate animation="transition.expandIn">
-                                    <Icon className="text-32">attach_file</Icon>
-                                </FuseAnimate>
-                                <Typography className="text-20 sm:text-20 truncate my-12">
-                                    Document Payment
-                                </Typography>
-                            </div> */}
-
                             <div className="flex items-center">
                                 <FuseAnimate animation="transition.expandIn">
                                     <Icon className="text-32">attach_file</Icon>
@@ -233,86 +205,7 @@ function CustomerPayment(props) {
                                     </CardActions>
                                 </Card>
                             </div>
-                            {/* <div className="pt-32">
-                            <GooglePayButton
-                                environment="TEST"
-                                paymentRequest={{
-                                    apiVersion: 2,
-                                    apiVersionMinor: 0,
-                                    allowedPaymentMethods: [
-                                        {
-                                            type: 'CARD',
-                                            parameters: {
-                                                allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-                                                allowedCardNetworks: ['MASTERCARD', 'VISA'],
-                                            },
-                                            tokenizationSpecification: {
-                                                type: 'PAYMENT_GATEWAY',
-                                                parameters: {
-                                                    gateway: 'example',
-                                                    gatewayMerchantId: 'exampleGatewayMerchantId',
-                                                },
-                                            },
-                                        },
-                                    ],
-                                    merchantInfo: {
-                                        merchantId: '12345678901234567890',
-                                        merchantName: 'Demo Merchant',
-                                    },
-                                    transactionInfo: {
-                                        totalPriceStatus: 'FINAL',
-                                        totalPriceLabel: 'Total',
-                                        totalPrice: tc,
-                                        currencyCode: 'USD',
-                                        countryCode: 'US',
-                                    },
-                                    shippingAddressRequired: true,
-                                    callbackIntents: ['SHIPPING_ADDRESS', 'PAYMENT_AUTHORIZATION'],
-                                }}
-                                onLoadPaymentData={paymentRequest => {
-                                    console.log('Success', paymentRequest);
-                                }}
-                                onPaymentAuthorized={async () => {
-                                    if (await hasSufficientFunds()) {
-                                        return handleSuccess()
-                                    } else {
-                                        return {
-                                            transactionState: 'ERROR',
-                                            error: {
-                                                reason: "PAYMENT_DATA_INVALID",
-                                                message: "Insufficient funds (shouldSucceed is false), click Pay again.",
-                                                intent: "PAYMENT_AUTHORIZATION"
-                                            }
-                                        };
-                                    }
-                                }}
-                                onPaymentDataChanged={paymentData => {
-                                    console.log('On Payment Data Changed', paymentData)
-                                    return {}
-                                }
-                                }
-                                existingPaymentMethodRequired='false'
-                                buttonColor='black'
-                                buttonType='pay'
-                            />
-                        </div> */}
-
-
-
-                            {/* <div className="my-10 mx-4 p-16">
-                            {err.length > 0 &&
-                                err.map((cl, index) => (
-                                    <React.Fragment key={index}>
-                                        <Alert
-                                            className="MuiTypography-body1 MuiTypography-root"
-                                            severity="error"
-                                        >
-                                            {cl}
-                                        </Alert>
-                                        <br />
-                                    </React.Fragment>
-                                ))}
-                        </div> */}
+                        
                         </div>
                     }
                     innerScroll

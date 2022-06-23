@@ -5,7 +5,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'typeface-poppins';
 import './i18n';
-import './react-chartjs-2-defaults';
 import './styles/app-base.css';
 import './styles/app-components.css';
 import './styles/app-utilities.css';

@@ -7,10 +7,6 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 // Util imports
 import { makeStyles } from '@material-ui/core/styles';
-// Components
-// import CardInput from './CardInput';
-// Stripe
-// import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import FuseLoading from "@fuse/core/FuseLoading";
 
 import "./style1.css"
@@ -69,78 +65,6 @@ function HomePage() {
     // State
     const [email, setEmail] = useState('');
 
-    // const stripe = useStripe();
-    // const elements = useElements();
-
-    // const handleSubmitPay = async (event) => {
-
-    //     if (!stripe || !elements) {
-    //         // Stripe.js has not yet loaded.
-    //         // Make sure to disable form submission until Stripe.js has loaded.
-    //         return;
-    //     }
-    //     var clientSecret = null;
-    //     console.log("object")
-    //     setLoading(true)
-    //     // const res = axios.post(`${process.env.REACT_APP_BACKEND_URL}/pay`, tempData);
-    //     await axios
-    //         .post(`${process.env.REACT_APP_BACKEND_URL}/pay`, tempData)
-    //         .then(res => {
-    //             if (!res.error) {
-    //                 // alert("Payment Successfull");
-    //                 // console.log("res", res.data['client_secret']);
-    //                 clientSecret = res.data['client_secret']
-    //                 // localStorage.setItem("order_id", res.data.order_id)
-    //                 // localStorage.removeItem("order_id");
-    //                 // localStorage.removeItem("myData");
-
-
-    //                 // history.push("/apps/dropAndUpload");
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.log("err", error)
-    //             console.log("Error While Generate Order");
-    //         })
-    //     // console.log("res", res.data)
-    //     // const clientSecret = res.data['client_secret'];
-
-    //     const result = await stripe.confirmCardPayment(clientSecret, {
-    //         payment_method: {
-    //             card: elements.getElement(CardElement),
-    //             billing_details: {
-    //                 email: email,
-    //             },
-    //         },
-    //     });
-
-    //     if (result.error) {
-    //         // Show error to your customer (e.g., insufficient funds)
-    //         console.log(result.error.message);
-    //         setLoading(false)
-    //         alert("Problem in Payment");
-
-    //     } else {
-    //         // The payment has been processed!
-    //         if (result.paymentIntent.status === 'succeeded') {
-    //             alert("Your file(s) have been send for printing. You will receive a pickup confirmation shortly ");
-    //             setLoading(false)
-    //             localStorage.removeItem("order_id");
-    //             localStorage.removeItem("myData");
-    //             localStorage.removeItem("temData");
-    //             localStorage.removeItem("timestamp");
-    //             localStorage.setItem("timeStemp",Math.floor(Date.now() /1000))
-    //             history.push("/apps/dropAndUpload/new");
-    //             // Show a success message to your customer
-    //             // There's a risk of the customer closing the window before callback
-    //             // execution. Set up a webhook or plugin to listen for the
-    //             // payment_intent.succeeded event that handles any business critical
-    //             // post-payment actions.
-
-    //         }
-    //     }
-    // };
-
     const handleSubmitPay = async (token) => {
         setLoading(true)
         await axios
@@ -193,7 +117,6 @@ function HomePage() {
                         onChange={(e) => setEmail(e.target.value)}
                         fullWidth
                     />
-                    {/* <CardInput /> */}
 
                     <PaymentForm
                         applicationId={square_application_id}

@@ -25,10 +25,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
 
-// import GooglePayButton from "@google-pay/button-react"
-// import StripeCheckout from 'react-stripe-checkout';
-// import { Elements } from '@stripe/react-stripe-js';
-// import { loadStripe } from '@stripe/stripe-js';
 import HomePage from "./HomePage";
 
 import history from "@history";
@@ -44,18 +40,7 @@ const useStyles = makeStyles({
     },
 });
 
-// the key is located in the .env file
-// const stripePromise = loadStripe("pk_live_51KNpBmDiddQAhMW0KFEt4brL1aT9RrcKtj8wPeCiyE3UlWXBIna6jRIDCbh1ELxsM8CyStT9c9TTwu3u1H3fWa2500z2hWgEPm");
-// const stripePromise = loadStripe("pk_test_51KNpBmDiddQAhMW0Lzmb8Gbd8oIVJtbBQxqf73mYItt5rSbxhMeZ3X36qXQAZGxPlfX9QvnO9OJASoJyXy4tCHxq00dNLc3nH0");
-
 let shouldSucceed = false;
-
-function hasSufficientFunds() {
-    // TODO: implement funds check
-    const promise = Promise.resolve(shouldSucceed);
-    shouldSucceed = !shouldSucceed;
-    return promise;
-}
 
 function CustomerPayment(props) {
 
@@ -63,7 +48,7 @@ function CustomerPayment(props) {
 
     const classes = useStyles(props);
     const temp_myData = localStorage.getItem("myData");
-    console.log("temp_myData", temp_myData);
+    // console.log("temp_myData", temp_myData);
     const temp_order_id = localStorage.getItem("order_id");
     let timestamp = localStorage.getItem("timeStemp");
     if (!temp_myData || !temp_order_id) {
@@ -77,61 +62,6 @@ function CustomerPayment(props) {
     const tc = data.Total_Cost.toString()
     const userData = JSON.parse(localStorage.getItem('current_user'))
     const [loading, setLoading] = useState(false)
-    console.log("userData", userData)
-    // console.log("data", userData.user.data.displayName)
-
-    console.log("data", data)
-
-
-
-    function handleSuccess() {
-        setLoading(true)
-        // event.preventDefault();
-        console.log("mydataaa:", data)
-        // console.log("transactionState", transactionState);
-        // console.log("SUCCESS",SUCCESS)
-
-        const tempData = {
-            user_id: userData.user.uuid,
-            // docFormat: data.docFormat,
-            // pageFormat: data.pageFormat,
-            files: data.numbers,
-            amount: data.Total_Cost,
-            email: userData.user.data.email,
-            order_id: order_id,
-            displayName: userData.user.data.displayName,
-            timestamp: timestamp
-
-
-        }
-        console.log("tempData", tempData);
-        axios
-            .post(`${process.env.REACT_APP_BACKEND_URL}/pay`, tempData)
-            .then(res => {
-                if (!res.error) {
-                    setLoading(false)
-                    alert("Your file(s) have been send for printing. You will receive a pickup confirmation shortly ");
-                    console.log("res", res.data);
-                    // localStorage.setItem("order_id", res.data.order_id)
-                    localStorage.removeItem("order_id");
-                    localStorage.removeItem("myData");
-                    localStorage.removeItem("temData");
-                    localStorage.removeItem("timestamp");
-                    localStorage.setItem("timeStemp", Math.floor(Date.now() / 1000))
-
-
-                    history.push("/apps/dropAndUpload/new");
-                }
-            })
-            .catch(error => {
-                setLoading(false)
-                alert("Pronlem in Payment");
-                console.log("Error While Generate Order");
-            })
-
-        return { transactionState: 'SUCCESS' }
-
-    }
 
     return (
         <div>
@@ -263,9 +193,7 @@ function CustomerPayment(props) {
                             </div>
                             <h3 className="pt-16 mb-3 ml-16"><b>PAY WITH CARD</b></h3>
                             <div className="mb-60">
-                                {/* <Elements stripe={stripePromise}> */}
                                 <HomePage />
-                                {/* </Elements> */}
                             </div>
                         </div>
 

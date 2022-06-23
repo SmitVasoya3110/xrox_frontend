@@ -74,7 +74,7 @@ function CartList1(props) {
     setData(tData);
   }, [Entries]);
 
-  const uploadShift = async () => {
+  const onClickCheckOut = async () => {
     const localData = JSON.parse(window.localStorage.getItem('temData')) || [];
     const temData = [];
     localData.forEach((element) => {
@@ -92,41 +92,16 @@ function CartList1(props) {
     let myData = {};
     await axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/calcuate-final-cart`, obj)
-      // .post(`http://172.105.56.110:8000/upload-to-cart`, fileData)
       .then((res) => {
-        // setFileData(null);
-        // myData["Total_Pages"] = res.data.numbers.Total_Pages
         myData["Total_Cost"] = res.data.Total_Cost
         myData["numbers"] = temData
-        // myData["fileNames"] = fileNames
-        // myData["docFormat"] = this.state.docFormat
-        // myData["pageFormat"] = this.state.pageFormat
-
-        // // this.state.total_price=res.data.numbers.Total_Cost
-        // this.setState({
-        //     total_price: res.data.numbers.Total_Cost
-        // }, () => {
-        //     console.log(this.state)
-        // })
         localStorage.setItem('myData', JSON.stringify(myData));
-        // // localStorage.setItem('files', JSON.stringify(myData));
-        // // setErr([]);
-        // this.setState({ loading: false });
-
         alert("Order Placed successfully!");
-        // let backPath = "/apps/custometPayment";
-        // history.push("/apps/cartList")
         history.push("/apps/custometPayment")
       })
       .catch((error) => {
-        // props.history.push(backPath)
         console.log("ERRRRRRRRRRRRRR:", error);
-        // setFileData(null);
-
-
         alert("File Is Not Valid!");
-
-        // setErr(error.response.data.message);
       });
   }
 
@@ -212,17 +187,15 @@ function CartList1(props) {
     }
   };
 
-  const onQtyChange = (row, value) => {
+  const onBlurQtyChnge =(row, value) => {
     const tData = JSON.parse(window.localStorage.getItem("temData"));
     let tempData = [];
     tData.forEach((el) => {
       if (el.server_file_name === row.server_file_name) {
         let temp = el;
         if (value <= 0) {
-          temp.qty = parseInt(0);
-        } else {
-          temp.qty = parseInt(value);
-        }
+          temp.qty = parseInt(1);
+        } 
         tempData.push(temp);
       } else {
         tempData.push(el);
@@ -231,24 +204,26 @@ function CartList1(props) {
     setData(tempData);
     window.localStorage.setItem("temData", JSON.stringify(tempData));
   }
-  // const [row, setRow] = useState({})
-  // const handleActiveStatus = (temp) => {
-  // 	console.log("TEMPPPPP ::", temp)
-  // 	if (window.confirm('Are You Sure?')) {
-  // 		dispatch(updateShift(temp['temp'])).then(res => {
-  // 			if (!res.error) {
-  // 				dispatch(getShiftLists({ page_number: 0, row_per_column: 10 }))
-  // 				setPage(0)
-  // 			}
-  // 		})
-  // 	}
-  // }
 
-
-  // if (!data) {
-  //   console.log("data   !data",data);
-  // 	return null;
-  // }
+  const onQtyChange = (row, value) => {
+    const tData = JSON.parse(window.localStorage.getItem("temData"));
+    let tempData = [];
+    tData.forEach((el) => {
+      if (el.server_file_name === row.server_file_name) {
+        let temp = el;
+        // if (value <= 0) {
+        //   temp.qty = parseInt(0);
+        // } else {
+        temp.qty = parseInt(value);
+        // }
+        tempData.push(temp);
+      } else {
+        tempData.push(el);
+      }
+    });
+    setData(tempData);
+    window.localStorage.setItem("temData", JSON.stringify(tempData));
+  }
 
   if (loading) {
     return <FuseLoading />;
@@ -312,10 +287,8 @@ function CartList1(props) {
               // disabled={!isFormValid || !canBeSubmitted()}
               onClick={() => {
                 if (window.confirm("Are You Sure?")) {
-                  // console.log("selectedIds- zerooo", selectedIds[0]);
-                  uploadShift()
+                  onClickCheckOut()
                 }
-                // closeSelectedMenu();
               }}
             >
               Check Out
@@ -360,6 +333,7 @@ function CartList1(props) {
                             type="number"
                             value={file.qty}
                             onChange={(e) => onQtyChange(file, e.target.value)}
+                            onBlur={(e)=>onBlurQtyChnge(file, e.target.value)}
                           />
 
                           <Button onClick={() => DecNum(file)}>
