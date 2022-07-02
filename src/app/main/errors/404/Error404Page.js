@@ -4,7 +4,7 @@ import FuseAnimate from '@fuse/core/FuseAnimate';
 // import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Error404Page() {
 	return (
@@ -33,11 +33,17 @@ function Error404Page() {
 							'aria-label': 'Search'
 						}}
 					/>
-				</Paper>
-
-				<Link className="font-medium" to="/apps/dashboards/project">
-					Go back to dashboard
-				</Link> */}
+				</Paper>  */}
+				<br />
+				<div >
+					<Link to="/apps/dropAndUpload/new">
+						Upload Document
+					</Link>
+				</div>
+				<br />
+				<Link className="mb-16 " to="/apps/cartList1">
+					Check Youre Cart
+				</Link>
 			</div>
 		</div>
 	);

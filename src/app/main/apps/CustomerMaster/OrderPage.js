@@ -155,7 +155,8 @@ function CustomerPayment(props) {
                                                 {"Total Cost"}
                                             </TableCell>
                                             <TableCell align="left" className="p-8 sm:p-16">
-                                                ${data.Total_Cost}
+                                                {/* ${data.Total_Cost} */}
+                                                ${parseFloat(data.Total_Cost).toFixed(2)}
                                             </TableCell>
                                         </TableRow>
                                     </TableBody>

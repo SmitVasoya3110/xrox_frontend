@@ -75,6 +75,7 @@ function CartList1(props) {
   }, [Entries]);
 
   const onClickCheckOut = async () => {
+    setLoading(true);
     const localData = JSON.parse(window.localStorage.getItem('temData')) || [];
     const temData = [];
     localData.forEach((element) => {
@@ -93,6 +94,7 @@ function CartList1(props) {
     await axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/calcuate-final-cart`, obj)
       .then((res) => {
+        setLoading(false);
         myData["Total_Cost"] = res.data.Total_Cost
         myData["numbers"] = temData
         localStorage.setItem('myData', JSON.stringify(myData));
@@ -100,29 +102,11 @@ function CartList1(props) {
         history.push("/apps/custometPayment")
       })
       .catch((error) => {
-        console.log("ERRRRRRRRRRRRRR:", error);
+        setLoading(false);
+        // console.log("ERRRRRRRRRRRRRR:", error);
         alert("File Is Not Valid!");
       });
   }
-
-
-  const handleChange1 = async (e, row) => {
-    e.target.value < 0 ? (e.target.value = 0) : e.target.value;
-    // setNum(e.target.value);
-    const tData = JSON.parse(window.localStorage.getItem("temData"));
-    let t = [];
-    await tData.forEach((el) => {
-      if (el.server_file_name === row.server_file_name) {
-        let temp = el;
-        temp.qty = e.target.value;
-        t.push(temp);
-      } else {
-        t.push(el);
-      }
-    });
-    setData(t);
-    window.localStorage.setItem("temData", JSON.stringify(t));
-  };
 
   const removeHandle = async (row) => {
     let temp = [];
@@ -133,7 +117,10 @@ function CartList1(props) {
     myData1["files[]"] = temp
     // setCount(count + 1);
     if (window.confirm("Are You Sure?")) {
-      dispatch(removeShift(myData1))
+      setLoading(true);
+      dispatch(removeShift(myData1)).then(res=>{
+        setLoading(false);
+      })
     }
 
   };
@@ -230,10 +217,16 @@ function CartList1(props) {
   }
   if (data?.length === 0 || !data) {
     return (
-      <div className="flex flex-1 items-center justify-center h-full">
+      <div className="flex flex-1 items-center justify-center h-full flex-col	">
         <Typography color="textSecondary" variant="h5">
           " Your Printing Basket is empty! "
         </Typography>
+        <br />
+				<div >
+					<Link to="/apps/dropAndUpload/new">
+						Upload Document
+					</Link>
+				</div>
       </div>
     );
   }
