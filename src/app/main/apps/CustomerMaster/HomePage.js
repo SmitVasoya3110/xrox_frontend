@@ -33,6 +33,13 @@ const useStyles = makeStyles({
         display: 'flex',
         flexDirection: 'column',
         alignContent: 'flex-start',
+        fontSize: "16px",
+        ["@media (min-width:360px) "]: {
+            padding: "8px"
+        },
+        ["@media (min-width:320px) "]: {
+            padding: "8px"
+        }
     },
     div: {
         display: 'flex',
@@ -117,32 +124,33 @@ function HomePage() {
                         onChange={(e) => setEmail(e.target.value)}
                         fullWidth
                     />
+                    <div style={{touchAction:"none"}}>
+                        <PaymentForm
+                            applicationId={square_application_id}
+                            locationId={square_location_id}
+                            cardTokenizeResponseReceived={async (token, buyer) => {
+                                // console.log("token", token);
+                                // console.log("buyer", buyer);
 
-                    <PaymentForm
-                        applicationId={square_application_id}
-                        locationId={square_location_id}
-                        cardTokenizeResponseReceived={async (token, buyer) => {
-                            // console.log("token", token);
-                            // console.log("buyer", buyer);
+                                const response = await handleSubmitPay(token.token)
+                                console.log("response", response);
+                                // const response = await fetch("/api/pay", {
+                                //     method: "POST",
+                                //     headers: {
+                                //         "Content-type": "application/json"
+                                //     },
+                                //     body: JSON.stringify({
+                                //         sourceId: token.token,
+                                //         amount: 200
+                                //     })
+                                // })
+                                // alert(JSON.stringify(await response.json(), null,))
+                            }}
 
-                            const response = await handleSubmitPay(token.token)
-                            console.log("response", response);
-                            // const response = await fetch("/api/pay", {
-                            //     method: "POST",
-                            //     headers: {
-                            //         "Content-type": "application/json"
-                            //     },
-                            //     body: JSON.stringify({
-                            //         sourceId: token.token,
-                            //         amount: 200
-                            //     })
-                            // })
-                            // alert(JSON.stringify(await response.json(), null,))
-                        }}
-
-                    >
-                        <CreditCard />
-                    </PaymentForm>
+                        >
+                            <CreditCard />
+                        </PaymentForm>
+                    </div>
                     <div className={classes.div}>
                         {/* <Button
                         variant="contained"
