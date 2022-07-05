@@ -15,16 +15,13 @@ export const getShiftLists = createAsyncThunk('ERP/ShiftList/getShiftList', asyn
 		"user_id": user_id,
 		"timestamp": timestamp
 	}
-	console.log("timestamp 11 ::", obj)
 	const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/fetch-user-files`,
 		obj
 	);
 	const data = await response.data.files;
 	const temData = [];
 	const localData = JSON.parse(window.localStorage.getItem('temData')) || [];
-	console.log("localData", localData);
 	data.forEach((element, index) => {
-		console.log("index for", index);
 		// if (element.server_file_name === localData?.[index]?.server_file_name) {
 		// 	temData.push(localData?.[index] || element)
 		// } else {
@@ -36,7 +33,6 @@ export const getShiftLists = createAsyncThunk('ERP/ShiftList/getShiftList', asyn
 		// }
 		const found = localData.find(element1 => element1.server_file_name === element.server_file_name);
 
-		console.log("found", found);
 		if (found === undefined) {
 			let dic = {
 				...element,
@@ -50,7 +46,6 @@ export const getShiftLists = createAsyncThunk('ERP/ShiftList/getShiftList', asyn
 		
 
 	});
-	console.log("final data", temData)
 	// if (window.localStorage.getItem('temData')) {
 	// 	let abc = 0;
 	// } else {
@@ -65,7 +60,6 @@ export const removeShift = createAsyncThunk(
 	'ERP/ShiftList/removeShift',
 	async (supplierIds, { dispatch, getState }) => {
 
-		console.log("delete slice data :", supplierIds)
 
 
 		let timestamp = supplierIds.timestamp
@@ -77,7 +71,6 @@ export const removeShift = createAsyncThunk(
 		);
 
 		const data = await response.data;
-		console.log("delete API ", data)
 		if (response.data) {
 			// NotificationManager.success(response.data[0]["Messgae"], 'Successful!', 2000);
 			alert("Files remove successfully")
@@ -91,9 +84,7 @@ export const uploadShift = createAsyncThunk(
 	'ERP/ShiftList/uploadShift',
 	async ({ timestamp, user_id }, { dispatch, getState }) => {
 
-		console.log("delete slice data :", timestamp, user_id)
 		const uploadDAta = getShiftLists({ timestamp, user_id });
-		console.log("delete slice data11111111111111111111 :", uploadDAta)
 
 
 		// let timestamp=supplierIds.timestamp

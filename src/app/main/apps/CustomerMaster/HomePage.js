@@ -78,8 +78,6 @@ function HomePage() {
             .post(`${process.env.REACT_APP_BACKEND_URL}/pay`, { ...tempData, token: token })
             .then(res => {
                 if (!res.error) {
-                    // console.log("res ==>", res);
-                    // console.log("res ==>", res.data.payment);
                     if (res?.data?.payment?.status === "COMPLETED") {
                         alert("Your file(s) have been send for printing. You will receive a pickup confirmation shortly");
                         localStorage.removeItem("order_id");
@@ -129,11 +127,8 @@ function HomePage() {
                             applicationId={square_application_id}
                             locationId={square_location_id}
                             cardTokenizeResponseReceived={async (token, buyer) => {
-                                // console.log("token", token);
-                                // console.log("buyer", buyer);
 
                                 const response = await handleSubmitPay(token.token)
-                                console.log("response", response);
                                 // const response = await fetch("/api/pay", {
                                 //     method: "POST",
                                 //     headers: {

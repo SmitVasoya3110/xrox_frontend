@@ -22,7 +22,6 @@ function ShiftFilter(props) {
 	})
 
 	const handleChangeFrmFilter = (e) => {
-		console.log("name", e.target.name, "value:-", e.target.value);
 		setFrmFilter({
 			...frmFilter,
 			[e.target.name]: e.target.value

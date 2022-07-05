@@ -51,7 +51,6 @@ function CustomerPayment(props) {
 
     const classes = useStyles(props);
     const temp_myData=localStorage.getItem("myData");
-    console.log("temp_myData",temp_myData);
     if(!temp_myData){
         history.push("/apps/dropAndUpload/new")
         window.location.reload();
@@ -91,20 +90,17 @@ function CustomerPayment(props) {
             amount: data.Total_Cost,
             
         }
-        console.log("tempData", tempData);
         await axios
             .post(`${process.env.REACT_APP_BACKEND_URL}/place/order`, tempData)
             .then(res => {
                 if (!res.error) {
                     // alert("Order Placed");
-                    console.log("res", res.data);
                     localStorage.setItem("order_id", res.data.order_id)
                     history.push("/apps/OderPage");
                 }
             })
             .catch(error => {
                 alert("Error While Generate Order")
-                console.log("Error While Generate Order");
             })
     }
 

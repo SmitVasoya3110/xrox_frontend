@@ -6,13 +6,11 @@ export const getShift = createAsyncThunk("ERP/Shift/getShift", async (params) =>
   // console.log(":::",process.env.REACT_APP_BACKEND_URL);
   const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/shift?masterShiftId=${params.type_id}`);
   const data = await response.data;
-  console.log("dddddddd", data);
   return data[0];
 });
 
 export const saveShift = createAsyncThunk('ERP/Shift/saveShift', async (form, { rejectWithValue }) => {
   try {
-    console.log("shift -dataa", form);
     const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/shift`, form);
 
     const data = await response.data;
@@ -29,7 +27,6 @@ export const saveShift = createAsyncThunk('ERP/Shift/saveShift', async (form, { 
   catch (err) {
     // NotificationManager.warning(err.response.data.message, 'warning!', 2000);
     // return rejectWithValue(err.response)
-    console.log("err.respons slice e", err.response);
     let tempE = "Unexpected error from API"
     if (err.response.data.message) {
       tempE = err.response.data.message
@@ -42,7 +39,6 @@ export const saveShift = createAsyncThunk('ERP/Shift/saveShift', async (form, { 
 
 
 export const updateShift = createAsyncThunk("ERP/Shift/updateShift", async (form) => {
-  console.log("formm Slice::", form)
   const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/shift`, form);
   const data = await response.data;
   let msg = "Shift Updated Successfully!"  // This msg show if there is no any message from api

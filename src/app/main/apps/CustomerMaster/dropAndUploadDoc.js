@@ -55,27 +55,22 @@ export default class dropAndUploadDoc extends Component {
     }
     handleChangeDocFormate = (e) => {
         e.preventDefault();
-        console.log(e);
-        console.log(" e.target.value", e.target.value)
         this.setState({
             docFormat: e.target.value
         }, () => {
-            console.log(this.state)
+            // console.log(this.state)
         })
     }
     handlePageFormate = (e) => {
         e.preventDefault();
-        console.log(e);
-        console.log(" e.target.value", e.target.value)
         this.setState({
             pageFormat: e.target.value
         }, () => {
-            console.log(this.state)
+            // console.log(this.state)
         })
     }
 
     onFilesError = (error, file) => {
-        console.log('error code ' + error.code + ': ' + error.message)
         alert('Error : ' + error.message)
     }
 
@@ -89,7 +84,6 @@ export default class dropAndUploadDoc extends Component {
 
     handleClick = async (event) => {
         event.preventDefault();
-        console.log();
         let fData = new FormData();
         let fileNames = [];
         let myData = {};
@@ -99,8 +93,6 @@ export default class dropAndUploadDoc extends Component {
 
         if (this.state.files.length && this.state.docFormat.length !== 0 && this.state.pageFormat.length !== 0) {
             const timestamp = localStorage.getItem("timeStemp");
-            console.log("document :", this.state.docFormat)
-            console.log("files :", this.state.files)
             let fileData = null;
             for (let i = 0; i < this.state.files.length; i++) {
                 fData.append("files[]", this.state.files[i]);
@@ -111,18 +103,14 @@ export default class dropAndUploadDoc extends Component {
             fData.append("timestamp", timestamp)
             fData.append("user_id", current_user.user.uuid)
             fileData = fData;
-            console.log("fileNames", fileNames)
-            console.log("timestemp", current_user.user.uuid)
 
 
-            console.log("Filedata", fileData);
             this.setState({ loading: true });
             await axios
                 .post(`${process.env.REACT_APP_BACKEND_URL}/upload-to-cart`, fileData)
                 // .post(`http://172.105.56.110:8000/upload-to-cart`, fileData)
                 .then((res) => {
                     // setFileData(null);
-                    console.log("ressssssssssss:", res);
                     // console.log("Total Cost ::", res.data.numbers.Total_Cost)
                     // myData["Total_Pages"] = res.data.numbers.Total_Pages
                     // myData["Total_Cost"] = res.data.numbers.Total_cost
@@ -148,7 +136,7 @@ export default class dropAndUploadDoc extends Component {
                 })
                 .catch((error) => {
                     // props.history.push(backPath)
-                    console.log("ERRRRRRRRRRRRRR:", error);
+                    // console.log("ERRRRRRRRRRRRRR:", error);
                     // setFileData(null);
                     this.setState({ loading: false });
 

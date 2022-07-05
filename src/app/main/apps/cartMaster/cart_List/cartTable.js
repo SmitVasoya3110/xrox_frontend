@@ -80,7 +80,6 @@ const EnhancedTable = ({ columns, data, index, size, funcSetIndex, funcsetSize }
 		funcsetSize(event.target.value)
 	};
 
-	console.log("rows", rows);
 
 	// Render the UI for your table
 	return (

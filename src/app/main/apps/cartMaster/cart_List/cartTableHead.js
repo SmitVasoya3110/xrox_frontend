@@ -26,17 +26,11 @@ import RemoveIcon from "@material-ui/icons/Remove";
 
 
 function ShiftTableHead(props) {
-	console.log("--------------");
 	const dispatch = useDispatch();
-	console.log("000000");
 	const Entries = useSelector(selectShiftList);
-	console.log("111111111111");
-	console.log("ItemCategory s s s ", Entries);
 	const frmFilterData = useSelector(({ ERP }) => ERP.ShiftList.frmFilterData);
-	console.log("frmFilterData", frmFilterData);
 
 	const [data, setData] = useState(Entries)
-	console.log("data", data);
 	const [page, setPage] = useState(0)
 	const [size, setSize] = useState(10)
 	const [loading, setLoading] = useState(true);
@@ -49,11 +43,8 @@ function ShiftTableHead(props) {
 		e.target.value < 0
 			? (e.target.value = 0)
 			: e.target.value
-		console.log("EE value ", e.target.value)
-		console.log("row", row);
 		// setNum(e.target.value);
 		const tData = JSON.parse(window.localStorage.getItem('temData'));
-		console.log("tData  ", tData);
 		let t = [];
 		await tData.forEach(el => {
 			if (el.server_file_name === row.server_file_name) {
@@ -69,10 +60,8 @@ function ShiftTableHead(props) {
 	}
 
 	const IncNum = async (row) => {
-		console.log("IncNum ", row)
 		// setCount(count + 1);
 		const tData = JSON.parse(window.localStorage.getItem('temData'));
-		console.log("tData  ", tData);
 		let t = [];
 		await tData.forEach(el => {
 			if (el.server_file_name === row.server_file_name) {
@@ -87,10 +76,8 @@ function ShiftTableHead(props) {
 		window.localStorage.setItem('temData', JSON.stringify(t))
 	};
 	const DecNum = async (row) => {
-		console.log("DecNum ", row)
 		if ( parseInt(row.qty) > 0) {
 			const tData = JSON.parse(window.localStorage.getItem('temData'));
-			console.log("tData  ", tData);
 			let t = [];
 			await tData.forEach(el => {
 				if (el.server_file_name === row.server_file_name) {
@@ -106,7 +93,6 @@ function ShiftTableHead(props) {
 		}
 		else {
 			const tData = JSON.parse(window.localStorage.getItem('temData'));
-			console.log("tData  ", tData);
 			let t = [];
 			await tData.forEach(el => {
 				if (el.server_file_name === row.server_file_name) {
@@ -168,7 +154,6 @@ function ShiftTableHead(props) {
 
 	useEffect(() => {
 		const tData = JSON.parse(window.localStorage.getItem('temData'));
-		console.log("tData", tData);
 		setData(tData)
 	}, [Entries]);
 
@@ -319,7 +304,6 @@ function ShiftTableHead(props) {
 	if (loading) {
 		return <FuseLoading />;
 	}
-	console.log("data", data);
 	if (data.length === 0) {
 		return (
 			<div className="flex flex-1 items-center justify-center h-full">

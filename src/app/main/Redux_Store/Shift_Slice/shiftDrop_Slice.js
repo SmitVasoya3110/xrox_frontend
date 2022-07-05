@@ -4,7 +4,6 @@ import axios from 'axios';
 export const getShiftDrop = createAsyncThunk('common/getShiftDrop' ,  async () =>{
 	const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/getShift`);
 	const data = await response.data;
-	console.log(data)
 	return data
 });
 

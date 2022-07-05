@@ -15,14 +15,12 @@ import history from "@history";
 function CartHeader(props) {
 	const dispatch = useDispatch();
 	const Entries = useSelector(selectShiftList);
-	console.log("Entries 1111111111", Entries)
 	let timestamp = localStorage.getItem("timeStemp");
 	let current_user = JSON.parse(localStorage.getItem("current_user"));
 	let user_id = current_user.user.uuid
 	
 	
 	// const { files, timestamp, user_id } = props;
-	console.log("files, timestamp,user_id", timestamp, current_user)
 	const uploadShift = async()=>{
 		// const uploadObject = Entries.map(rowData => rowData.server_file_name);
 		const localData = JSON.parse(window.localStorage.getItem('temData')) || [];
@@ -34,21 +32,17 @@ function CartHeader(props) {
 			}
 			temData.push(dic)
 		});
-		console.log("heloooooooooooooooooo", temData)
 		const obj = {
 			"user_id":user_id,
 			"timestamp":timestamp,
 			"files":temData
 		}
-		console.log("heloooooooooooooooooo oBJJJ", obj)
 		let myData = {};
 		await axios
 			.post(`${process.env.REACT_APP_BACKEND_URL}/calcuate-final-cart`, obj)
 			// .post(`http://172.105.56.110:8000/upload-to-cart`, fileData)
 			.then((res) => {
 				// setFileData(null);
-				console.log("ressssssssssss:", res);
-				console.log("Total Cost ::", res.data.Total_Cost)
 				// myData["Total_Pages"] = res.data.numbers.Total_Pages
 				myData["Total_Cost"] = res.data.Total_Cost
 				myData["numbers"] = temData
@@ -56,7 +50,6 @@ function CartHeader(props) {
 				// myData["docFormat"] = this.state.docFormat
 				// myData["pageFormat"] = this.state.pageFormat
 
-				console.log("mydataaaa", myData)
 				// // this.state.total_price=res.data.numbers.Total_Cost
 				// this.setState({
 				//     total_price: res.data.numbers.Total_Cost
@@ -75,7 +68,6 @@ function CartHeader(props) {
 			})
 			.catch((error) => {
 				// props.history.push(backPath)
-				console.log("ERRRRRRRRRRRRRR:", error);
 				// setFileData(null);
 				
 
@@ -136,7 +128,6 @@ function CartHeader(props) {
 					color="secondary"
 					onClick={() => {
 						if (window.confirm("Are You Sure?")) {
-							// console.log("selectedIds- zerooo", selectedIds[0]);
 							uploadShift()
 						}
 						// closeSelectedMenu();
