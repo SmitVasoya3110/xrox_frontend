@@ -12,15 +12,15 @@ import FuseLoading from "@fuse/core/FuseLoading";
 import "./style1.css"
 import history from "@history";
 import { Box, CircularProgress, Paper } from '@material-ui/core';
-import { CreditCard, PaymentForm } from 'react-square-web-payments-sdk';
+import { CreditCard, GooglePay, PaymentForm } from 'react-square-web-payments-sdk';
 
 // smit  test
 let square_application_id = "sandbox-sq0idb-SvqHq2eq43x61WjecHVNUw"
 let square_location_id = "L5KKFMZJPVWBY"
 
 let NODE_ENV = process.env.NODE_ENV;
-NODE_ENV= "production"
-// NODE_ENV = "development"
+// NODE_ENV= "production"
+NODE_ENV = "development"
 square_application_id = NODE_ENV.toString().toLowerCase() === "development" ? process.env.REACT_APP_APPLICATION_ID_DEV : process.env.REACT_APP_APPLICATION_ID_LIVE
 square_location_id = NODE_ENV.toString().toLowerCase() === "development" ? process.env.REACT_APP_LOCATION_ID_DEV : process.env.REACT_APP_LOCATION_ID_LIVE
 console.log(NODE_ENV);
@@ -122,7 +122,7 @@ function HomePage() {
                         onChange={(e) => setEmail(e.target.value)}
                         fullWidth
                     />
-                    <div style={{touchAction:"none"}}>
+                    <div style={{ touchAction: "none" }}>
                         <PaymentForm
                             applicationId={square_application_id}
                             locationId={square_location_id}
@@ -142,7 +142,20 @@ function HomePage() {
                                 // alert(JSON.stringify(await response.json(), null,))
                             }}
 
+                            createPaymentRequest={() => ({
+                                countryCode: "AU",
+                                currencyCode: "AUD",
+                                total: {
+                                    amount: data.Total_Cost.toString(),
+                                    label: "Total",
+                                }
+                            })}
+
+
+
                         >
+                            <GooglePay />
+                            <br/>
                             <CreditCard />
                         </PaymentForm>
                     </div>
