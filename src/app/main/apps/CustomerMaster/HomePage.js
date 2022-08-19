@@ -12,7 +12,7 @@ import FuseLoading from "@fuse/core/FuseLoading";
 import "./style1.css"
 import history from "@history";
 import { Box, CircularProgress, Paper } from '@material-ui/core';
-import { CreditCard, GooglePay, PaymentForm } from 'react-square-web-payments-sdk';
+import { ApplePay, CreditCard, GooglePay, PaymentForm } from 'react-square-web-payments-sdk';
 
 // smit  test
 let square_application_id = "sandbox-sq0idb-SvqHq2eq43x61WjecHVNUw"
@@ -155,7 +155,8 @@ function HomePage() {
 
                         >
                             <GooglePay />
-                            <br/>
+                            <ApplePay />
+                            <br />
                             <CreditCard />
                         </PaymentForm>
                     </div>
