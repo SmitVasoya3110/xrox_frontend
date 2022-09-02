@@ -55,12 +55,12 @@ function Register3Page() {
 
 	const [agree, setAgree] = useState(false);
 
-    const checkboxHandler = () => {
-        // if agree === true, it will be set to false
-        // if agree === false, it will be set to true
-        setAgree(!agree);
-        // Don't miss the exclamation mark
-    }
+	const checkboxHandler = () => {
+		// if agree === true, it will be set to false
+		// if agree === false, it will be set to true
+		setAgree(!agree);
+		// Don't miss the exclamation mark
+	}
 
 	const handlenameChange = (e) => {
 
@@ -140,9 +140,9 @@ function Register3Page() {
 						)}
 						square
 					>
-						<CardContent className="flex flex-col items-center justify-center w-full py-96 max-w-320">
+						<CardContent className="flex flex-col items-center justify-center w-full py-32 max-w-320">
 
-							<img className="w-128 m-32" style={{ width: "70%" }} src="assets/images/printing_logo.png" alt="logo" />
+							<img className="w-128 m-32 mt-16" style={{ width: "70%" }} src="assets/images/printing_logo.png" alt="logo" />
 
 							<Formsy
 								onValid={enableButton}
@@ -290,7 +290,7 @@ function Register3Page() {
 							</Formsy>
 						</CardContent>
 
-						<div className="flex flex-col items-center justify-center pb-64">
+						<div className="flex flex-col items-center justify-center mb-16">
 							<div>
 								<span className="font-normal mr-8">Already have an account?</span>
 								<Link className="font-normal" to="/login">
