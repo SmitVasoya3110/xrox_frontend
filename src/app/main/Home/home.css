@@ -28,17 +28,18 @@
 @media only screen and (min-width: 200px) and (max-width: 767px) {
     .mainHomeText {
         font-size: 40px;
+        text-align: center;
     }
 
     .HomeSubText {
         font-size: 19px;
+        text-align: center;
     }
 
     .homeLoginRegisterWrapper {
         width: 100%;
         flex-direction: column;
         margin-top: 40px;
-
     }
 
     .homeLoginRegisterWrapperItem {

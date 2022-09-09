@@ -27,6 +27,7 @@ const Register3PageConfig = {
 		{
 			auth: authRoles.onlyGuest,
 			path: '/',
+			exact: true,
 			component: React.lazy(() => import('./Home'))
 		}
 	]
