@@ -1,12 +1,9 @@
 import { Redirect } from 'react-router-dom';
 import FuseUtils from '@fuse/utils';
-// import ExampleConfig from 'app/main/example/ExampleConfig';
 import appsConfigs from 'app/main/apps/appsConfigs';
-// import Register3PageConfig from '../main/register-3/Register3PageConfig'
 
 const routeConfigs = [
 	...appsConfigs,
-	// ExampleConfig,
 ];
 const routes = [
 
@@ -22,11 +19,13 @@ const routes = [
 	// 	component: () => <Redirect to="/register1" />
 	// },
 	...FuseUtils.generateRoutesFromConfigs(routeConfigs, ["Customer"]),
-	{
-		path: '/',
-		exact: true,
-		component: () => <Redirect to="/apps/dropAndUpload/new" />
-	},
+	// {
+	// 	path: '/',
+	// 	exact: true,
+	// 	auth: authRoles.onlyGuest,
+	// 	// component: () => <Redirect to="/apps/dropAndUpload/new" />
+	// 	component: React.lazy(() => import('app/main/apps/Dashboard'))
+	// },
 	{
 		component: () => <Redirect to="/errors/error-404" />,
 	},

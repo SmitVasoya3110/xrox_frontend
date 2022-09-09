@@ -1,0 +1,75 @@
+.homeTitleWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.homeLoginRegisterWrapper {
+    width: 50%;
+    display: flex;
+    margin: 20px 0px 20px 0px;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.homeImageDiv {
+    margin-bottom: 100px;
+}
+
+.homeImageDiv img {
+    width: 20%;
+}
+
+/* mobile screen */
+@media only screen and (min-width: 200px) and (max-width: 767px) {
+    .mainHomeText {
+        font-size: 40px;
+    }
+
+    .HomeSubText {
+        font-size: 19px;
+    }
+
+    .homeLoginRegisterWrapper {
+        width: 100%;
+        flex-direction: column;
+        margin-top: 40px;
+
+    }
+
+    .homeLoginRegisterWrapperItem {
+        margin-bottom: 10px;
+    }
+
+    .homeImageDiv {
+        margin-bottom: 70px;
+    }
+
+    .homeImageDiv img {
+        width: 50%;
+    }
+
+}
+
+/* ipad screen  */
+@media only screen and (min-width: 768px) and (max-width: 850px) {
+    .homeLoginRegisterWrapper {
+        width: 100%;
+        flex-direction: row;
+        padding-left: 40px;
+        padding-right: 40px;
+        margin-top: 30px;
+    }
+
+    .homeImageDiv {
+        margin-bottom: 70px;
+    }
+
+    .homeImageDiv img {
+        width: 30%;
+    }
+}
