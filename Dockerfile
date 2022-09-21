@@ -21,4 +21,4 @@ COPY . ./
 # start app
 EXPOSE 3000
 
-CMD ["serve", "-s", "serve"]
+CMD ["serve", "-s", "build"]
