@@ -12,7 +12,7 @@ WORKDIR /app
 COPY package.json ./
 # COPY package-lock.json ./
 # RUN yarn
-RUN npm i
+RUN npm i --legacy-peer-deps
 RUN npm run build
 RUN npm i -g serve
 # add app
