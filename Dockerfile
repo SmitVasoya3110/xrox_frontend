@@ -11,14 +11,15 @@ WORKDIR /app
 
 COPY package.json ./
 # COPY package-lock.json ./
-# RUN yarn
-RUN npm i --legacy-peer-deps
-RUN npm run build
-RUN npm i -g serve
+RUN yarn
+# RUN npm i --legacy-peer-deps
+# RUN npm run build
+# RUN npm i -g serve
 # add app
-COPY . ./
+COPY . .
 
 # start app
 EXPOSE 3000
 
-CMD ["serve", "-s", "build"]
+# CMD ["serve", "-s", "build"]
+CMD ["yarn", "start"]
