@@ -11,14 +11,12 @@ import Provider from 'react-redux/es/components/Provider';
 import { Router } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import DateFnsUtils from '@date-io/date-fns';
+import axios from "axios";
+import jwtService from "app/services/jwtService";
 import AppContext from './AppContext';
 import { Auth } from './auth';
 import routes from './fuse-configs/routesConfig';
 import store from './store';
-
-
-import axios from "axios";
-import jwtService from "app/services/jwtService";
 
 const jss = create({
 	...jssPreset(),

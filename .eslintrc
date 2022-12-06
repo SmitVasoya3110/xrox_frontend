@@ -8,7 +8,7 @@
     "extends": [
         "react-app",
         "airbnb",
-        "plugin:prettier/recommended",
+        "plugin:prettier/recommended"
     ],
     "plugins": [
         "prettier"
@@ -26,7 +26,9 @@
         "prettier/prettier": [
             // "warn",
             "off",
-            {"endOfLine":"auto"}
+            {
+                "endOfLine": "auto"
+            }
         ],
         "react/jsx-filename-extension": [
             "warn",
@@ -37,9 +39,17 @@
                 ]
             }
         ],
-        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": true
+            }
+        ],
         "no-unused-expressions": "off",
-        "spaced-comment": ["warn", "always"],
+        "spaced-comment": [
+            "warn",
+            "always"
+        ],
         "no-unreachable": "warn",
         "no-unused-vars": "off",
         "no-param-reassign": "off",
@@ -64,6 +74,7 @@
         "react/react-in-jsx-scope": "off",
         "react/jsx-uses-react": "off",
         "camelcase": "off",
-        "dot-notation": "off"
-      }
+        "dot-notation": "off",
+        "no-undef":"error"
+    }
 }
