@@ -2,7 +2,7 @@ import FusePageSimple from "@fuse/core/FusePageSimple";
 import React, { useRef } from "react";
 import TableHeader from "./userTableHeader";
 import TableHead from "./userTableHead";
-import TableFilter from "./userTableFilter";
+// import TableFilter from "./userTableFilter";
 
 function UserList(props) {
   const pageLayout = useRef(null);
@@ -18,7 +18,7 @@ function UserList(props) {
       }}
       header={<TableHeader pageLayout={pageLayout} />}
       content={<TableHead />}
-      leftSidebarContent={<TableFilter />}
+      // leftSidebarContent={<TableFilter />}
       sidebarInner
       ref={pageLayout}
       innerScroll

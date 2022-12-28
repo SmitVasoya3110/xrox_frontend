@@ -16,8 +16,15 @@ export const getUserList = createAsyncThunk(
 );
 
 const initData = {
-  loading : false,
-  userList: [],
+  loading: false,
+  initParams: {
+    pageSize: 10,
+    pageIndex: 1,
+  },
+  userList: {
+    data: [],
+    totalCount: 0
+  },
 };
 
 export const userSlice = createSlice({
