@@ -26,7 +26,7 @@ const Register3PageConfig = {
 	routes: [
 		{
 			auth: authRoles.onlyGuest,
-			path: '/register1',
+			path: '/register',
 			component: React.lazy(() => import('./Register3Page'))
 		}
 	]
