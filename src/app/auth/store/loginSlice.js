@@ -3,9 +3,9 @@ import { showMessage } from 'app/store/fuse/messageSlice';
 import jwtService from 'app/services/jwtService';
 import { setUserData } from './userSlice';
 
-export const submitLogin = ({ Email_Id, Password }) => async dispatch => {
+export const submitLogin = (formData) => async dispatch => {
 	return jwtService
-		.signInWithEmailAndPassword(Email_Id, Password)
+		.signInWithEmailAndPassword(formData)
 		.then(user => {
 			dispatch(setUserData(user));
 
