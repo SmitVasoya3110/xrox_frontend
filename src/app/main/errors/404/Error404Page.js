@@ -41,7 +41,7 @@ function Error404Page() {
 					</Link>
 				</div>
 				<br />
-				<Link className="mb-16 " to="/apps/cartList1">
+				<Link className="mb-16 " to="/apps/cartList">
 					Check Youre Cart
 				</Link>
 			</div>

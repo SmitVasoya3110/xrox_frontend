@@ -78,7 +78,7 @@ const navigationConfig = [
 						id: "document-add-Cart1",
 						title: "Cart List",
 						type: "item",
-						url: "/apps/cartList1",
+						url: "/apps/cartList",
 						exact: true,
 						// auth: ['Admin'],
 					},

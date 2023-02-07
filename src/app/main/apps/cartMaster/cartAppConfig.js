@@ -8,7 +8,7 @@ const CartAppConfigs = {
     // auth: ["Admin"],
     routes: [
         {
-            path: "/apps/cartList1",
+            path: "/apps/cartList",
             component: React.lazy(() => import("./cart_List1/cartList")),
         },
     ],
