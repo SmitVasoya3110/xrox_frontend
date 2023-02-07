@@ -31,6 +31,8 @@ import { Link, useParams } from "react-router-dom";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
+import axios from "axios";
+import history from "@history";
 import {
   getShiftLists,
   selectShiftList,
@@ -38,8 +40,6 @@ import {
 } from "../../../Redux_Store/Shift_Slice/shiftList_Slice";
 
 import reducer from "../../../Redux_Store/index";
-import axios from "axios";
-import history from "@history";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -48,8 +48,8 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 function CartList1(props) {
   const dispatch = useDispatch();
   const theme = useTheme();
-  const formRef = useRef(null); //validation
-  let backPath = "/apps/dropAndUpload/new";
+  const formRef = useRef(null); // validation
+  const backPath = "/apps/dropAndUpload/new";
 
   const Entries = useSelector(selectShiftList) || [];
   const [data, setData] = useState(Entries);
@@ -57,11 +57,12 @@ function CartList1(props) {
   const [loading, setLoading] = useState(true);
   const timestamp = localStorage.getItem("timeStemp");
   const current_user = JSON.parse(localStorage.getItem("current_user"));
-  const user_id = current_user.user.uuid
+  console.log("current_user000", current_user)
+  const user_id = current_user.uuid
 
   useDeepCompareEffect(() => {
     dispatch(
-      getShiftLists({ timestamp: timestamp, user_id: current_user.user.uuid })
+      getShiftLists({ timestamp, user_id: user_id })
     )
       .then(() => {
         setLoading(false)
@@ -79,7 +80,7 @@ function CartList1(props) {
     const localData = JSON.parse(window.localStorage.getItem('temData')) || [];
     const temData = [];
     localData.forEach((element) => {
-      let dic = {
+      const dic = {
         file: element.server_file_name,
         quantity: element.qty
       }
@@ -90,7 +91,7 @@ function CartList1(props) {
       "timestamp": timestamp,
       "files": temData
     }
-    let myData = {};
+    const myData = {};
     await axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/calcuate-final-cart`, obj)
       .then((res) => {
@@ -109,16 +110,16 @@ function CartList1(props) {
   }
 
   const removeHandle = async (row) => {
-    let temp = [];
-    let myData1 = {};
+    const temp = [];
+    const myData1 = {};
     temp.push(row.server_file_name)
     myData1["timestamp"] = timestamp
-    myData1["user_id"] = current_user.user.uuid
+    myData1["user_id"] = user_id
     myData1["files[]"] = temp
     // setCount(count + 1);
     if (window.confirm("Are You Sure?")) {
       setLoading(true);
-      dispatch(removeShift(myData1)).then(res=>{
+      dispatch(removeShift(myData1)).then(res => {
         setLoading(false);
       })
     }
@@ -128,10 +129,10 @@ function CartList1(props) {
   const IncNum = async (row) => {
     // setCount(count + 1);
     const tData = JSON.parse(window.localStorage.getItem("temData"));
-    let t = [];
+    const t = [];
     await tData.forEach((el) => {
       if (el.server_file_name === row.server_file_name) {
-        let temp = el;
+        const temp = el;
         temp.qty = parseInt(row.qty) + 1;
         t.push(temp);
       } else {
@@ -144,10 +145,10 @@ function CartList1(props) {
   const DecNum = async (row) => {
     if (parseInt(row.qty) > 0) {
       const tData = JSON.parse(window.localStorage.getItem("temData"));
-      let t = [];
+      const t = [];
       await tData.forEach((el) => {
         if (el.server_file_name === row.server_file_name) {
-          let temp = el;
+          const temp = el;
           temp.qty = parseInt(row.qty) - 1;
           t.push(temp);
         } else {
@@ -158,10 +159,10 @@ function CartList1(props) {
       window.localStorage.setItem("temData", JSON.stringify(t));
     } else {
       const tData = JSON.parse(window.localStorage.getItem("temData"));
-      let t = [];
+      const t = [];
       await tData.forEach((el) => {
         if (el.server_file_name === row.server_file_name) {
-          let temp = el;
+          const temp = el;
           temp.qty = 0;
           t.push(temp);
         } else {
@@ -174,15 +175,15 @@ function CartList1(props) {
     }
   };
 
-  const onBlurQtyChnge =(row, value) => {
+  const onBlurQtyChnge = (row, value) => {
     const tData = JSON.parse(window.localStorage.getItem("temData"));
-    let tempData = [];
+    const tempData = [];
     tData.forEach((el) => {
       if (el.server_file_name === row.server_file_name) {
-        let temp = el;
+        const temp = el;
         if (value <= 0) {
           temp.qty = parseInt(1);
-        } 
+        }
         tempData.push(temp);
       } else {
         tempData.push(el);
@@ -194,10 +195,10 @@ function CartList1(props) {
 
   const onQtyChange = (row, value) => {
     const tData = JSON.parse(window.localStorage.getItem("temData"));
-    let tempData = [];
+    const tempData = [];
     tData.forEach((el) => {
       if (el.server_file_name === row.server_file_name) {
-        let temp = el;
+        const temp = el;
         // if (value <= 0) {
         //   temp.qty = parseInt(0);
         // } else {
@@ -222,11 +223,11 @@ function CartList1(props) {
           " Your Printing Basket is empty! "
         </Typography>
         <br />
-				<div >
-					<Link to="/apps/dropAndUpload/new">
-						Upload Document
-					</Link>
-				</div>
+        <div >
+          <Link to="/apps/dropAndUpload/new">
+            Upload Document
+          </Link>
+        </div>
       </div>
     );
   }
@@ -326,7 +327,7 @@ function CartList1(props) {
                             type="number"
                             value={file.qty}
                             onChange={(e) => onQtyChange(file, e.target.value)}
-                            onBlur={(e)=>onBlurQtyChnge(file, e.target.value)}
+                            onBlur={(e) => onBlurQtyChnge(file, e.target.value)}
                           />
 
                           <Button onClick={() => DecNum(file)}>

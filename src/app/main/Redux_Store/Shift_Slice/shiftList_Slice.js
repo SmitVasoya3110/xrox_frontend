@@ -12,13 +12,13 @@ export const getShiftLists = createAsyncThunk('ERP/ShiftList/getShiftList', asyn
 
 
 	const obj = {
-		"user_id": user_id,
-		"timestamp": timestamp
+		"user_id": user_id
 	}
 	console.log("timestamp 11 ::", obj)
-	const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/fetch-user-files`,
+	const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/cart/user_cart/`,
 		obj
 	);
+	console.log("ttttt", response)
 	const data = await response.data.files;
 	console.log("Real DAta", data);
 	const temData = [];
@@ -37,13 +37,13 @@ export const getShiftLists = createAsyncThunk('ERP/ShiftList/getShiftList', asyn
 			}
 			temData.push(dic)
 		}
-		else{
+		else {
 			temData.push(found)
 		}
 
 
 	});
-	
+
 	console.log("final data", temData)
 	// if (window.localStorage.getItem('temData')) {
 	// 	let abc = 0;

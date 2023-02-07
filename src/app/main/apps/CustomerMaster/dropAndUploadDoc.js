@@ -113,10 +113,14 @@ export default class dropAndUploadDoc extends Component {
   };
 
   getActualPreSignedURL = async (data) => {
+
     this.setState({ loading: true });
     try {
       const newFileArr = [];
       for (let i = 0; i < this.state.files.length; i++) {
+
+        const item = data.files[i]
+        console.log("item00", item)
         const file = this.state.files[i];
         // const type = file.type
         const fileKey = data?.files?.[i]?.upload_url?.fields.key;
@@ -127,12 +131,17 @@ export default class dropAndUploadDoc extends Component {
         const timeStamp = fileKey.split("/")[1];
         const fileName = file.name;
         const fileType = file.type;
+
+
+
         newFileArr.push({
           file,
           fileName,
           fileType,
           key: `${current_user.uuid}/${timeStamp}/${file.name}`,
           timeStamp,
+          color: item.color,
+          side: item.side,
         });
       }
       console.log("newFileArr", newFileArr);
@@ -161,6 +170,45 @@ export default class dropAndUploadDoc extends Component {
       return { status: 200, files: newArr };
     } catch (error) {
       console.log("uploadFinalS3->\n", error);
+      return { status: 500 };
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
+
+
+  addFilesToCard = async (fileKeyArr) => {
+    console.log("addFilesToCard", fileKeyArr)
+    this.setState({ loading: true });
+    try {
+      const newArr = [];
+      // multiple file upload
+      for (let index = 0; index < fileKeyArr.length; index++) {
+        const item = fileKeyArr[index];
+        newArr.push({
+          "filename": item.key,
+          "size": item.size,
+          "color": item.color,
+          "side": item.side
+        });
+      }
+      const payload = {
+        "user_id": current_user.uuid,
+        "files": [...newArr]
+      }
+      const cart_id = localStorage.getItem("cart_id")
+      const cartRes = await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/api/cart/${cart_id}/`,
+        payload
+      );
+      console.log("cartRes", cartRes)
+      if (cartRes.status) {
+        return { status: 200, files: fileKeyArr };
+      }
+      return { status: 500 };
+
+    } catch (error) {
+      console.log("addFilesToCard->\n", error);
       return { status: 500 };
     } finally {
       this.setState({ loading: false });
@@ -219,6 +267,8 @@ export default class dropAndUploadDoc extends Component {
         const uploadRes = await this.uploadFinalS3(finalURLs);
         console.log("________________________________ uploadRes", uploadRes);
         if (uploadRes.status) {
+          const updatedCartRes = await this.addFilesToCard(uploadRes.files || [])
+          console.log("updatedCartRes00", updatedCartRes)
           this.props.history.push({
             pathname: '/apps/cartList1',
           });
