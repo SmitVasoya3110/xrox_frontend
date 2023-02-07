@@ -53,33 +53,45 @@ function CartList1(props) {
 
   const Entries = useSelector(selectShiftList) || [];
   const [data, setData] = useState(Entries);
-
-  const [loading, setLoading] = useState(true);
+  console.log("data", data)
+  const [loading, setLoading] = useState(false);
   const timestamp = localStorage.getItem("timeStemp");
   const current_user = JSON.parse(localStorage.getItem("current_user"));
   console.log("current_user000", current_user)
   const user_id = current_user.uuid
 
+  // useDeepCompareEffect(() => {
+  //   dispatch(
+  //     getShiftLists({ timestamp, user_id: user_id })
+  //   )
+  //     .then(() => {
+  //       setLoading(false)
+  //     })
+  //     .catch(() => setData([]));
+  // }, [dispatch, timestamp]);
+
   useDeepCompareEffect(() => {
-    dispatch(
-      getShiftLists({ timestamp, user_id: user_id })
-    )
-      .then(() => {
-        setLoading(false)
-      })
-      .catch(() => setData([]));
+    // dispatch(
+    //   getShiftLists({ timestamp, user_id: user_id })
+    // )
+    //   .then(() => {
+    //     setLoading(false)
+    //   })
+    //   .catch(() => setData([]));
+    const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
+    if (cart_arr) {
+      setData(cart_arr);
+    }
+
   }, [dispatch, timestamp]);
 
-  useEffect(() => {
-    const tData = JSON.parse(window.localStorage.getItem("temData"));
-    setData(tData);
-  }, [Entries]);
+
 
   const onClickCheckOut = async () => {
     setLoading(true);
-    const localData = JSON.parse(window.localStorage.getItem('temData')) || [];
+    const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
     const temData = [];
-    localData.forEach((element) => {
+    cart_arr.forEach((element) => {
       const dic = {
         file: element.server_file_name,
         quantity: element.qty
@@ -128,10 +140,11 @@ function CartList1(props) {
 
   const IncNum = async (row) => {
     // setCount(count + 1);
-    const tData = JSON.parse(window.localStorage.getItem("temData"));
+    // const tData = JSON.parse(window.localStorage.getItem("temData"));
+    const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
     const t = [];
-    await tData.forEach((el) => {
-      if (el.server_file_name === row.server_file_name) {
+    await cart_arr.forEach((el) => {
+      if (el.key === row.key) {
         const temp = el;
         temp.qty = parseInt(row.qty) + 1;
         t.push(temp);
@@ -140,14 +153,17 @@ function CartList1(props) {
       }
     });
     setData(t);
-    window.localStorage.setItem("temData", JSON.stringify(t));
+    window.localStorage.setItem("cart_arr", JSON.stringify(t));
   };
   const DecNum = async (row) => {
     if (parseInt(row.qty) > 0) {
-      const tData = JSON.parse(window.localStorage.getItem("temData"));
+      // const tData = JSON.parse(window.localStorage.getItem("temData"));
+
+      const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
+
       const t = [];
-      await tData.forEach((el) => {
-        if (el.server_file_name === row.server_file_name) {
+      await cart_arr.forEach((el) => {
+        if (el.key === row.key) {
           const temp = el;
           temp.qty = parseInt(row.qty) - 1;
           t.push(temp);
@@ -156,11 +172,11 @@ function CartList1(props) {
         }
       });
       setData(t);
-      window.localStorage.setItem("temData", JSON.stringify(t));
+      window.localStorage.setItem("cart_arr", JSON.stringify(t));
     } else {
-      const tData = JSON.parse(window.localStorage.getItem("temData"));
+      const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
       const t = [];
-      await tData.forEach((el) => {
+      await cart_arr.forEach((el) => {
         if (el.server_file_name === row.server_file_name) {
           const temp = el;
           temp.qty = 0;
@@ -170,15 +186,15 @@ function CartList1(props) {
         }
       });
       setData(t);
-      window.localStorage.setItem("temData", JSON.stringify(t));
+      window.localStorage.setItem("cart_arr", JSON.stringify(t));
       alert("min limit reached");
     }
   };
 
   const onBlurQtyChnge = (row, value) => {
-    const tData = JSON.parse(window.localStorage.getItem("temData"));
+    const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
     const tempData = [];
-    tData.forEach((el) => {
+    cart_arr.forEach((el) => {
       if (el.server_file_name === row.server_file_name) {
         const temp = el;
         if (value <= 0) {
@@ -190,13 +206,13 @@ function CartList1(props) {
       }
     });
     setData(tempData);
-    window.localStorage.setItem("temData", JSON.stringify(tempData));
+    window.localStorage.setItem("cart_arr", JSON.stringify(tempData));
   }
 
   const onQtyChange = (row, value) => {
-    const tData = JSON.parse(window.localStorage.getItem("temData"));
+    const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
     const tempData = [];
-    tData.forEach((el) => {
+    cart_arr.forEach((el) => {
       if (el.server_file_name === row.server_file_name) {
         const temp = el;
         // if (value <= 0) {
@@ -210,7 +226,7 @@ function CartList1(props) {
       }
     });
     setData(tempData);
-    window.localStorage.setItem("temData", JSON.stringify(tempData));
+    window.localStorage.setItem("cart_arr", JSON.stringify(tempData));
   }
 
   if (loading) {
@@ -309,12 +325,15 @@ function CartList1(props) {
                               {file.filename}
                             </Typography>
                             <Typography className="mb-5 text-slate-500">
-                              Page Type: <span className="text-black">{file.page_format}</span>
+                              Page Type: {" "}
+                              <span className="text-black capitalize">
+                                {file?.side?.split("_")?.join(" ")?.toLowerCase()}
+                              </span>
                             </Typography>
                             <Typography className="mb-5">
                               Document Type: <span className="text-black">{file.size}</span>
                             </Typography>
-                            <Typography className="mb-5">Color Type: <span className="text-black">{file.type}</span></Typography>
+                            <Typography className="mb-5">Color Type: <span className="text-black">{file.color}</span></Typography>
                           </CardContent>
                         </CardActionArea>
                         <CardActions className="flex justify-center">

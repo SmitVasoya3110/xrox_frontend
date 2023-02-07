@@ -141,9 +141,11 @@ export default class dropAndUploadDoc extends Component {
           timeStamp,
           color: item.color,
           side: item.side,
+          size: item.size,
+          qty: 1
         });
       }
-      // console.log("newFileArr", newFileArr);
+      console.log("newFileArr", newFileArr);
       return newFileArr;
     } catch (error) {
       return [];
@@ -297,7 +299,7 @@ export default class dropAndUploadDoc extends Component {
       const finalURLs = await this.getActualPreSignedURL(tempForm);
       // console.log("finalURLs", finalURLs);
       const uploadRes = await this.uploadFinalS3(finalURLs);
-      // console.log("________________________________ uploadRes", uploadRes);
+      console.log("________________________________ uploadRes", uploadRes);
       if (uploadRes.status) {
         // const updatedCartRes = await this.addFilesToCard(uploadRes.files || [])
         // console.log("updatedCartRes00", updatedCartRes)
