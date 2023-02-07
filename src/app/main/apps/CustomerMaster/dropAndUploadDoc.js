@@ -101,8 +101,8 @@ export default class dropAndUploadDoc extends Component {
         `${process.env.REACT_APP_BACKEND_URL}/api/cart/`,
         payload
       );
-      console.log("nRes", nRes);
-      console.log("nRes.data.data", nRes.data.data);
+      // console.log("nRes", nRes);
+      // console.log("nRes.data.data", nRes.data.data);
       localStorage.setItem("cart_id", nRes.data.data.cart_id)
       return { status: 200, resData: nRes.data.data };
     } catch (error) {
@@ -120,19 +120,18 @@ export default class dropAndUploadDoc extends Component {
       for (let i = 0; i < this.state.files.length; i++) {
 
         const item = data.files[i]
-        console.log("item00", item)
+        // console.log("item00", item)
         const file = this.state.files[i];
         // const type = file.type
         const fileKey = data?.files?.[i]?.upload_url?.fields.key;
-        console.log("fileKey", fileKey);
-        console.log("file.type", file.type);
+        // console.log("fileKey", fileKey);
+        // console.log("file.type", file.type);
         // const getActualURL = await getSignedInUrl(fileKey, file.type)
         // console.log("getActualURL", getActualURL)
-        const timeStamp = fileKey.split("/")[1];
+        // const timeStamp = fileKey.split("/")[1];
+        const timeStamp = new Date().getTime()
         const fileName = file.name;
         const fileType = file.type;
-
-
 
         newFileArr.push({
           file,
@@ -144,7 +143,7 @@ export default class dropAndUploadDoc extends Component {
           side: item.side,
         });
       }
-      console.log("newFileArr", newFileArr);
+      // console.log("newFileArr", newFileArr);
       return newFileArr;
     } catch (error) {
       return [];
@@ -169,7 +168,7 @@ export default class dropAndUploadDoc extends Component {
       }
       return { status: 200, files: newArr };
     } catch (error) {
-      console.log("uploadFinalS3->\n", error);
+      // console.log("uploadFinalS3->\n", error);
       return { status: 500 };
     } finally {
       this.setState({ loading: false });
@@ -178,7 +177,7 @@ export default class dropAndUploadDoc extends Component {
 
 
   addFilesToCard = async (fileKeyArr) => {
-    console.log("addFilesToCard", fileKeyArr)
+    // console.log("addFilesToCard", fileKeyArr)
     this.setState({ loading: true });
     try {
       const newArr = [];
@@ -201,19 +200,52 @@ export default class dropAndUploadDoc extends Component {
         `${process.env.REACT_APP_BACKEND_URL}/api/cart/${cart_id}/`,
         payload
       );
-      console.log("cartRes", cartRes)
+      // console.log("cartRes", cartRes)
       if (cartRes.status) {
         return { status: 200, files: fileKeyArr };
       }
       return { status: 500 };
 
     } catch (error) {
-      console.log("addFilesToCard->\n", error);
+      // console.log("addFilesToCard->\n", error);
       return { status: 500 };
     } finally {
       this.setState({ loading: false });
     }
   };
+
+  storeCartToLocal = (fileArr) => {
+    let oldCartArr = localStorage.getItem("cart_arr")
+    let newArr = []
+    // console.log("oldCartArr", oldCartArr)
+    if (oldCartArr) {
+      let oldArr = Array.isArray(JSON.parse(oldCartArr))
+      // console.log("oldArr", oldArr)
+      if (oldArr) {
+        // console.log("JSON.parse(oldCartArr)", JSON.parse(oldCartArr))
+        // console.log("type JSON.parse(oldCartArr)", typeof (JSON.parse(oldCartArr)))
+        oldArr = JSON.parse(oldCartArr)
+      } else {
+        oldArr = []
+      }
+      // console.log("oldArr oooooooooooo", oldArr)
+      newArr = [...oldArr]
+      // console.log("KKKKKKKKKKK", newArr)
+
+      fileArr.forEach(element => {
+        const isOldFile = newArr.find((item) => item.key == element.key)
+        if (!isOldFile) {
+          let temp = { ...element }
+          delete temp.file
+          newArr.push(temp)
+        }
+      });
+
+    }
+    // console.log("final", newArr)
+    localStorage.setItem("cart_arr", JSON.stringify(newArr))
+    return newArr
+  }
 
   handleClick = async (event) => {
     event.preventDefault();
@@ -257,24 +289,37 @@ export default class dropAndUploadDoc extends Component {
       tempForm["files"] = newArr;
       console.log("tempForm", tempForm);
 
-      const signUrlRes = await this.getPreSignedKeys(tempForm);
-      console.log("signUrlRes 0", signUrlRes);
+      // const signUrlRes = await this.getPreSignedKeys(tempForm);
+      // console.log("signUrlRes 0", signUrlRes);
 
-      if (signUrlRes.status === 200) {
-        console.log("signUrlRes", signUrlRes);
-        const finalURLs = await this.getActualPreSignedURL(signUrlRes.resData);
-        console.log("finalURLs", finalURLs);
-        const uploadRes = await this.uploadFinalS3(finalURLs);
-        console.log("________________________________ uploadRes", uploadRes);
-        if (uploadRes.status) {
-          const updatedCartRes = await this.addFilesToCard(uploadRes.files || [])
-          console.log("updatedCartRes00", updatedCartRes)
-          this.props.history.push({
-            pathname: '/apps/cartList1',
-          });
+      // if (signUrlRes.status === 200) {
+      // console.log("signUrlRes", signUrlRes);
+      const finalURLs = await this.getActualPreSignedURL(tempForm);
+      // console.log("finalURLs", finalURLs);
+      const uploadRes = await this.uploadFinalS3(finalURLs);
+      // console.log("________________________________ uploadRes", uploadRes);
+      if (uploadRes.status) {
+        // const updatedCartRes = await this.addFilesToCard(uploadRes.files || [])
+        // console.log("updatedCartRes00", updatedCartRes)
+        const oldCartId = localStorage.getItem("cart_id")
+        if (!oldCartId) {
+          // create user cart
+          const signUrlRes = await this.getPreSignedKeys(tempForm);
+          this.storeCartToLocal(uploadRes.files || [])
+          // console.log("signUrlRes", signUrlRes)
+        } else {
+          const mergeArr = this.storeCartToLocal(uploadRes.files || [])
+          // console.log("mergeArr", mergeArr)
+          const updatedCartRes = await this.addFilesToCard(mergeArr || [])
+          // console.log("updatedCartRes", updatedCartRes)
         }
 
+        this.props.history.push({
+          pathname: '/apps/cartList',
+        });
       }
+
+      // }
     } else {
       alert("Please Upload Document or Select Document Type");
       // props.history.push(backPath)
@@ -319,7 +364,7 @@ export default class dropAndUploadDoc extends Component {
                 <FuseAnimate animation="transition.slideRightIn" delay={300}>
                   <Button
                     component={Link}
-                    to="/apps/cartList1"
+                    to="/apps/cartList"
                     className="whitespace-no-wrap normal-case mx-10"
                     variant="contained"
                     color="secondary"
