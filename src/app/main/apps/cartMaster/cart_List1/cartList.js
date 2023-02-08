@@ -122,18 +122,15 @@ function CartList1(props) {
   }
 
   const removeHandle = async (row) => {
-    const temp = [];
-    const myData1 = {};
-    temp.push(row.server_file_name)
-    myData1["timestamp"] = timestamp
-    myData1["user_id"] = user_id
-    myData1["files[]"] = temp
-    // setCount(count + 1);
     if (window.confirm("Are You Sure?")) {
-      setLoading(true);
-      dispatch(removeShift(myData1)).then(res => {
-        setLoading(false);
-      })
+      // setLoading(true);
+      let cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
+      const foundIndex = data.findIndex((item) => item.key == row.key)
+      // console.log("foundIndex", foundIndex)
+      cart_arr.splice(foundIndex, 1)
+      // console.log("cart_arr", cart_arr)
+      setData(cart_arr)
+      window.localStorage.setItem("cart_arr", JSON.stringify(cart_arr));
     }
 
   };
