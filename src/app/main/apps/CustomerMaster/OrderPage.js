@@ -59,7 +59,7 @@ function CustomerPayment(props) {
     const order_id = parseInt(localStorage.getItem("order_id"))
 
     // const tp = data.Total_Pages.toString()
-    const tc = data.Total_Cost.toString()
+    const tc = data?.Total_Cost?.toString()
     const userData = JSON.parse(localStorage.getItem('current_user'))
     const [loading, setLoading] = useState(false)
 
@@ -132,7 +132,7 @@ function CustomerPayment(props) {
                                                 {"User Name"}
                                             </TableCell>
                                             <TableCell align="left" className="p-8 sm:p-16">
-                                                {userData.user.data.displayName}
+                                                {userData?.user?.data?.displayName}
                                             </TableCell>
                                         </TableRow>
                                     </TableBody>
@@ -143,7 +143,7 @@ function CustomerPayment(props) {
                                                 {"User Email"}
                                             </TableCell>
                                             <TableCell align="left" className="p-8 sm:p-16">
-                                                {userData.user.data.email}
+                                                {userData?.user?.data?.email}
                                             </TableCell>
                                         </TableRow>
                                     </TableBody>
@@ -156,7 +156,7 @@ function CustomerPayment(props) {
                                             </TableCell>
                                             <TableCell align="left" className="p-8 sm:p-16">
                                                 {/* ${data.Total_Cost} */}
-                                                ${parseFloat(data.Total_Cost).toFixed(2)}
+                                                ${parseFloat(data?.Total_Cost || 0).toFixed(2)}
                                             </TableCell>
                                         </TableRow>
                                     </TableBody>

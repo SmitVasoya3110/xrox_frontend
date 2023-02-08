@@ -56,11 +56,11 @@ function CustomerPayment(props) {
         window.location.reload();
     }
     const data = JSON.parse(localStorage.getItem('myData'))
-    const tp = data.numbers
-    const tc = data.Total_Cost.toString()
+    const tp = data?.numbers
+    const tc = data?.Total_Cost?.toString()
     const userData = JSON.parse(localStorage.getItem('current_user'))
-    data["displayName"] = userData.user.data.displayName
-    data["email"] = userData.user.data.email
+    data["displayName"] = userData?.user.data?.displayName
+    data["email"] = userData?.user.data?.email
 
     const [docFormat, setDocFormat] = useState("")
 
@@ -85,9 +85,9 @@ function CustomerPayment(props) {
     const functionCreateOrder = async (event) => {
         event.preventDefault();
         const tempData = {
-            user_id: userData.user.uuid,
-            files: data.numbers,
-            amount: data.Total_Cost,
+            user_id: userData?.user?.uuid,
+            files: data?.numbers,
+            amount: data?.Total_Cost,
             
         }
         await axios
@@ -95,7 +95,7 @@ function CustomerPayment(props) {
             .then(res => {
                 if (!res.error) {
                     // alert("Order Placed");
-                    localStorage.setItem("order_id", res.data.order_id)
+                    localStorage.setItem("order_id", res?.data?.order_id)
                     history.push("/apps/OderPage");
                 }
             })
