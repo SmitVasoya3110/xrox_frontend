@@ -71,18 +71,12 @@ function CartList1(props) {
   // }, [dispatch, timestamp]);
 
   useDeepCompareEffect(() => {
-    // dispatch(
-    //   getShiftLists({ timestamp, user_id: user_id })
-    // )
-    //   .then(() => {
-    //     setLoading(false)
-    //   })
-    //   .catch(() => setData([]));
+    setLoading(true);
     const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
     if (cart_arr) {
       setData(cart_arr);
     }
-
+    setLoading(false);
   }, [dispatch, timestamp]);
 
 
@@ -141,12 +135,12 @@ function CartList1(props) {
     const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
     const t = [];
     await cart_arr.forEach((el) => {
+      let temp = { ...el }
       if (el.key === row.key) {
-        const temp = el;
-        temp.qty = parseInt(row.qty) + 1;
+        temp = { ...temp, qty: parseInt(temp.qty) + 1 }
         t.push(temp);
       } else {
-        t.push(el);
+        t.push(temp);
       }
     });
     setData(t);
@@ -160,12 +154,12 @@ function CartList1(props) {
 
       const t = [];
       await cart_arr.forEach((el) => {
+        let temp = { ...el }
         if (el.key === row.key) {
-          const temp = el;
-          temp.qty = parseInt(row.qty) - 1;
+          temp = { ...temp, qty: parseInt(temp.qty) - 1 }
           t.push(temp);
         } else {
-          t.push(el);
+          t.push(temp);
         }
       });
       setData(t);
@@ -174,12 +168,12 @@ function CartList1(props) {
       const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
       const t = [];
       await cart_arr.forEach((el) => {
-        if (el.server_file_name === row.server_file_name) {
-          const temp = el;
-          temp.qty = 0;
+        let temp = { ...el }
+        if (el.key === row.key) {
+          temp = { ...temp, qty: 0 }
           t.push(temp);
         } else {
-          t.push(el);
+          t.push(temp);
         }
       });
       setData(t);
@@ -192,14 +186,14 @@ function CartList1(props) {
     const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
     const tempData = [];
     cart_arr.forEach((el) => {
-      if (el.server_file_name === row.server_file_name) {
-        const temp = el;
+      let temp = { ...el }
+      if (el.key === row.key) {
         if (value <= 0) {
-          temp.qty = parseInt(1);
+          temp = { ...temp, qty: 1 }
         }
         tempData.push(temp);
       } else {
-        tempData.push(el);
+        tempData.push(temp);
       }
     });
     setData(tempData);
@@ -210,16 +204,12 @@ function CartList1(props) {
     const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
     const tempData = [];
     cart_arr.forEach((el) => {
-      if (el.server_file_name === row.server_file_name) {
-        const temp = el;
-        // if (value <= 0) {
-        //   temp.qty = parseInt(0);
-        // } else {
-        temp.qty = parseInt(value);
-        // }
+      let temp = { ...el }
+      if (el.key === row.key) {
+        temp = { ...temp, qty: parseInt(value) }
         tempData.push(temp);
       } else {
-        tempData.push(el);
+        tempData.push(temp);
       }
     });
     setData(tempData);
