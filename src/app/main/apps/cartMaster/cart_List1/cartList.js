@@ -83,28 +83,33 @@ function CartList1(props) {
 
   const onClickCheckOut = async () => {
     setLoading(true);
-    const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
-    const temData = [];
-    cart_arr.forEach((element) => {
-      const dic = {
-        file: element.server_file_name,
-        quantity: element.qty
-      }
-      temData.push(dic)
-    });
-    const obj = {
-      "user_id": user_id,
-      "timestamp": timestamp,
-      "files": temData
+    // const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
+    // const temData = [];
+    // cart_arr.forEach((element) => {
+    //   const dic = {
+    //     file: element.server_file_name,
+    //     quantity: element.qty
+    //   }
+    //   temData.push(dic)
+    // });
+    const cart_id = localStorage.getItem("cart_id");
+    if (!cart_id) {
+      alert("Cart not fount!")
+      return
     }
-    const myData = {};
+
+    const obj = {
+      "cart_id": cart_id
+    }
+    // const myData = {};
     await axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/calcuate-final-cart`, obj)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/order/`, obj)
       .then((res) => {
+        console.log("res0", res)
         setLoading(false);
-        myData["Total_Cost"] = res.data.Total_Cost
-        myData["numbers"] = temData
-        localStorage.setItem('myData', JSON.stringify(myData));
+        // myData["Total_Cost"] = res.data.Total_Cost
+        // myData["numbers"] = temData
+        // localStorage.setItem('myData', JSON.stringify(myData));
         alert("Order Placed successfully!");
         history.push("/apps/custometPayment")
       })
