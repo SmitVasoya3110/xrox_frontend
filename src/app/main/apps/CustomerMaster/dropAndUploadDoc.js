@@ -142,7 +142,7 @@ export default class dropAndUploadDoc extends Component {
           color: item.color,
           side: item.side,
           size: item.size,
-          qty: 1
+          quantity: 1
         });
       }
       console.log("newFileArr", newFileArr);
@@ -190,7 +190,8 @@ export default class dropAndUploadDoc extends Component {
           "filename": item.key,
           "size": item.size,
           "color": item.color,
-          "side": item.side
+          "side": item.side,
+          quantity: item?.quantity ? parseInt(item.quantity) : 1
         });
       }
       const payload = {
@@ -286,6 +287,7 @@ export default class dropAndUploadDoc extends Component {
           size: docFormatArr[0],
           color: docFormatArr[1],
           side: this.state.pageFormat,
+          quantity: element?.quantity ? parseInt(element.quantity) : 1
         });
       });
       tempForm["files"] = newArr;

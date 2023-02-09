@@ -142,7 +142,7 @@ function CartList1(props) {
     await cart_arr.forEach((el) => {
       let temp = { ...el }
       if (el.key === row.key) {
-        temp = { ...temp, qty: parseInt(temp.qty) + 1 }
+        temp = { ...temp, quantity: parseInt(temp.quantity) + 1 }
         t.push(temp);
       } else {
         t.push(temp);
@@ -152,7 +152,8 @@ function CartList1(props) {
     window.localStorage.setItem("cart_arr", JSON.stringify(t));
   };
   const DecNum = async (row) => {
-    if (parseInt(row.qty) > 0) {
+    const newValue = parseInt(row.quantity) - 1
+    if (newValue != 0) {
       // const tData = JSON.parse(window.localStorage.getItem("temData"));
 
       const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
@@ -161,7 +162,7 @@ function CartList1(props) {
       await cart_arr.forEach((el) => {
         let temp = { ...el }
         if (el.key === row.key) {
-          temp = { ...temp, qty: parseInt(temp.qty) - 1 }
+          temp = { ...temp, quantity: newValue }
           t.push(temp);
         } else {
           t.push(temp);
@@ -175,7 +176,7 @@ function CartList1(props) {
       await cart_arr.forEach((el) => {
         let temp = { ...el }
         if (el.key === row.key) {
-          temp = { ...temp, qty: 0 }
+          temp = { ...temp, quantity: 1 }
           t.push(temp);
         } else {
           t.push(temp);
@@ -194,7 +195,7 @@ function CartList1(props) {
       let temp = { ...el }
       if (el.key === row.key) {
         if (value <= 0) {
-          temp = { ...temp, qty: 1 }
+          temp = { ...temp, quantity: 1 }
         }
         tempData.push(temp);
       } else {
@@ -211,7 +212,7 @@ function CartList1(props) {
     cart_arr.forEach((el) => {
       let temp = { ...el }
       if (el.key === row.key) {
-        temp = { ...temp, qty: parseInt(value) }
+        temp = { ...temp, quantity: parseInt(value) }
         tempData.push(temp);
       } else {
         tempData.push(temp);
@@ -329,20 +330,18 @@ function CartList1(props) {
                           </CardContent>
                         </CardActionArea>
                         <CardActions className="flex justify-center">
-                          <Button onClick={() => IncNum(file)}>
-                            <AddIcon />
+                          <Button onClick={() => DecNum(file)}>
+                            <RemoveIcon />
                           </Button>
-
                           <TextField
                             style={{ width: "20%" }}
                             type="number"
-                            value={file.qty}
+                            value={file.quantity}
                             onChange={(e) => onQtyChange(file, e.target.value)}
                             onBlur={(e) => onBlurQtyChnge(file, e.target.value)}
                           />
-
-                          <Button onClick={() => DecNum(file)}>
-                            <RemoveIcon />
+                          <Button onClick={() => IncNum(file)}>
+                            <AddIcon />
                           </Button>
                         </CardActions>
                         <CardActions className="flex justify-center">
