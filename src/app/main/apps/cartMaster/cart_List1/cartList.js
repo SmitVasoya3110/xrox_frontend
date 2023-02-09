@@ -79,11 +79,46 @@ function CartList1(props) {
     setLoading(false);
   }, [dispatch, timestamp]);
 
+  const addFilesToCard = async (fileKeyArr) => {
+    // console.log("addFilesToCard", fileKeyArr)
+    try {
+      const newArr = [];
+      // multiple file upload
+      for (let index = 0; index < fileKeyArr.length; index++) {
+        const item = fileKeyArr[index];
+        newArr.push({
+          "filename": item.key,
+          "size": item.size,
+          "color": item.color,
+          "side": item.side,
+          quantity: item?.quantity ? parseInt(item.quantity) : 1
+        });
+      }
+      const payload = {
+        "user_id": current_user.uuid,
+        "files": [...newArr]
+      }
+      const cart_id = localStorage.getItem("cart_id")
+      const cartRes = await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/api/cart/${cart_id}/`,
+        payload
+      );
+      // console.log("cartRes", cartRes)
+      if (cartRes.status) {
+        return { status: 200, files: fileKeyArr };
+      }
+      return { status: 500 };
 
+    } catch (error) {
+      // console.log("addFilesToCard->\n", error);
+      return { status: 500 };
+    } finally {
+      // this.setState({ loading: false });
+    }
+  };
 
   const onClickCheckOut = async () => {
     setLoading(true);
-    // const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
     // const temData = [];
     // cart_arr.forEach((element) => {
     //   const dic = {
@@ -97,6 +132,9 @@ function CartList1(props) {
       alert("Cart not fount!")
       return
     }
+    const cart_arr = JSON.parse(localStorage.getItem("cart_arr")) || [];
+    const res = await addFilesToCard(cart_arr)
+    if (res.status != 200) return
 
     const obj = {
       "cart_id": cart_id
